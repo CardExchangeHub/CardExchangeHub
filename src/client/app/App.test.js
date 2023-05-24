@@ -10,6 +10,6 @@ describe('App test', () => {
   });
 
   it('should render App component', () => {
-    expect(app.getByText(/Hello World/i)).toBeInTheDocument();
-  })
+    expect(app.getByText(/Hi! This is homepage/i)).toBeInTheDocument();
+  });
 });
