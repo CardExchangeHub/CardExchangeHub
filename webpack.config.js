@@ -4,7 +4,7 @@ module.exports = {
   entry: '.src/client/index.tsx',
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, 'client'),
+    path: path.join(__dirname, './src/client'),
   },
   optimization: {
     usedExports: true,
@@ -43,7 +43,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
-      template: './client/index.html',
+      template: './src/client/index.html',
     }),
   ],
 };
