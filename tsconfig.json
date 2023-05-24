@@ -8,8 +8,8 @@
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react-jsx",
-    "moduleResolution": "bundler",
-    "rootDir": "./src",
+    "moduleResolution": "node",
+    "rootDir": "./",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
@@ -24,5 +24,5 @@
     "jest",
     "src/setupTests.ts"
   ],
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/client/app/app.test.js"]
 }
