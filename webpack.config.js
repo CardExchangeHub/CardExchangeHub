@@ -1,6 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 module.exports = {
   entry: '.src/client/index.tsx',
   output: {
@@ -14,7 +13,7 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: {
-      directory: path.join(__dirname, './client'),
+      directory: path.join(__dirname, './src/client'),
       publicPath: '/',
     },
     port: 8080,
