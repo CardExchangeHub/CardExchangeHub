@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "outDir": "build/dist",
+    "outDir": "./dist/",
     "module": "ESNext",
     "target": "es5",
     "lib": ["es6", "dom"],
@@ -9,7 +9,7 @@
     "allowJs": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": "./src",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,

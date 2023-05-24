@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
-  entry: '.src/client/index.tsx',
+  entry: './src/client/index.tsx',
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, './src/client'),
@@ -9,7 +9,7 @@ module.exports = {
   optimization: {
     usedExports: true,
   },
-  mode: process.env.NODE_ENV,
+  mode: process.env.NODE_ENV || 'development',
   devServer: {
     historyApiFallback: true,
     static: {
