@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 

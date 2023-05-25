@@ -1,4 +1,5 @@
 module.exports = {
+  preset: 'ts-jest/presets/js-with-ts',
   testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: [
     '@testing-library/jest-dom/extend-expect',

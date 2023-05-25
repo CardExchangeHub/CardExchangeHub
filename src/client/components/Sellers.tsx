@@ -5,3 +5,5 @@ const Sellers: React.FC = () => {
 };
 
 export default Sellers;
+
+//this is boilerplate, may delete later
