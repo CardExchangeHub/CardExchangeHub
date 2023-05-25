@@ -1,4 +1,9 @@
-import express, { Request, Response } from 'express';
+import express, {
+  ErrorRequestHandler,
+  Request,
+  Response,
+  NextFunction,
+} from 'express';
 import { Client } from 'pg';
 
 // import dotenv from 'dotenv';
@@ -13,8 +18,31 @@ const db = new Client(
 );
 
 db.connect();
-// this will allow us to grab all users from the database on the root route
-app.use('/auth', require());
+//
+app.use('/auth');
+
+const errorHandler: ErrorRequestHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign(defaultErr, err);
+  console.log(errorObj.log);
+
+  err.status = errorObj.status || 'error';
+
+  return res.status(errorObj.status).json({
+    message: errorObj.message,
+  });
+};
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
