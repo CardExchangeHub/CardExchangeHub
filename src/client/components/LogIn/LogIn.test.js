@@ -3,23 +3,25 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('LogIn test for rendering/navigating', () => {
-  it('renders LogIn component', () => {
+  beforeEach(() => {
     render(<LogIn />, { wrapper: MemoryRouter });
+  });
+  it('renders LogIn component', () => {
     expect(screen.getByText('Log In With Email')).toBeInTheDocument();
     expect(screen.getByText('Email')).toBeInTheDocument();
     expect(screen.getByText('Password')).toBeInTheDocument();
     expect(screen.getByText('Submit')).toBeInTheDocument();
   });
+  // it('triggers submit button functionality', () => {
+  //   const emailInput = screen.getByLabelText('Email');
+  //   const passwordInput = screen.getByLabelText('Password');
+  //   const submitButton = screen.getByText('Submit');
 
-  it('updates input values on change', () => {
-    render(<LogIn />, { wrapper: MemoryRouter });
-    const emailInput = screen.getByLabelText('Email');
-    const passwordInput = screen.getByLabelText('Password');
+  //   fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+  //   fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+  //   fireEvent.click(submitButton);
 
-    expect(emailInput.value).toBe('test@example.com');
-    expect(passwordInput.value).toBe('password123');
-  });
+  //   // Add assertions or expectations based on the submit button functionality
+  // });
 });

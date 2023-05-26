@@ -36,7 +36,7 @@ export default function Login() {
     email: '',
     password: '',
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Separate state for isLoggedIn
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Probably will use redux to manage log in state?
 
   const handleChange = ({
     target,

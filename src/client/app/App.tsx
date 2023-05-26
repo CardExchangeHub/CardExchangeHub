@@ -7,7 +7,7 @@ import NotFound from '../components/NotFound';
 import LogIn from '../components/LogIn/LogIn';
 import NavBar from '../components/NavBar/NavBar';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div>
       <NavBar />
