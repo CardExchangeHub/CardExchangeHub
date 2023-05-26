@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-// ...
+import cardsReducer from '../features/CardsList/cardsListSlice';
 
 export const store = configureStore({
   reducer: {
-    posts: postsReducer,
-    comments: commentsReducer,
-    users: usersReducer,
+    cards: cardsReducer,
   },
 });
 

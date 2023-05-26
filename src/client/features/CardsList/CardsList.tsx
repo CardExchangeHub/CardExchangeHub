@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import {getCardsListStart, getCardsListSuccess, getCardsListFailure, selectCards} from './cardsListSlice';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 interface Card {
   id: number;
@@ -10,6 +12,7 @@ interface Card {
 
 const CardsList: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
+// const cards = useAppSelector(selectCards);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -21,7 +24,6 @@ const CardsList: React.FC = () => {
         console.error('Error fetching cards:', error);
       }
     };
-
     fetchCards();
   }, []);
 
