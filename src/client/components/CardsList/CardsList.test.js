@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CardsList from './CardsList';
-import { before } from 'node:test';
 import 'whatwg-fetch';
 
 describe('CardsList', () => {
@@ -21,7 +20,7 @@ describe('CardsList', () => {
       },
     ];
 
-    jest.spyOn(window, "fetch").mockImplementation(() =>
+    jest.spyOn(window, 'fetch').mockImplementation(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockCards),
       })

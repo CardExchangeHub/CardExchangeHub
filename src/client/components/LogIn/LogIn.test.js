@@ -21,7 +21,8 @@ describe('LogIn test for rendering/navigating', () => {
   //   fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
   //   fireEvent.click(submitButton);
-
   //   // Add assertions or expectations based on the submit button functionality
   // });
+
+  //spy on fetch request to get user info
 });
