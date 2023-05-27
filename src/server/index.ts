@@ -23,9 +23,9 @@ app.use('/auth');
 
 const errorHandler: ErrorRequestHandler = (
   err: any,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -34,8 +34,6 @@ const errorHandler: ErrorRequestHandler = (
   };
   const errorObj = Object.assign(defaultErr, err);
   console.log(errorObj.log);
-
-  err.status = errorObj.status || 'error';
 
   return res.status(errorObj.status).json({
     message: errorObj.message,
