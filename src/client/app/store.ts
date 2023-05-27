@@ -1,13 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-// ...
+import cardsReducer from '../features/CardsList/cardsListSlice';
 
-// export const store = configureStore({
-//   reducer: {
-//     posts: postsReducer,
-//     comments: commentsReducer,
-//     users: usersReducer,
-//   },
-// });
+export const store = configureStore({
+  reducer: {
+    cards: cardsReducer,
+  },
+});
 
 // // Infer the `RootState` and `AppDispatch` types from the store itself
 // export type RootState = ReturnType<typeof store.getState>;
