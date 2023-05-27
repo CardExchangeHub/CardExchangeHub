@@ -4,10 +4,11 @@ import express, {
   Response,
   NextFunction,
 } from 'express';
+
 import { Client } from 'pg';
 
 import cardRoute from './routes/card_route';
-
+import authRoute from './routes/auth_route';
 // import dotenv from 'dotenv';
 
 // dotenv.config();
@@ -22,7 +23,11 @@ const port = 3000;
 
 // db.connect();
 //
-app.use('/auth');
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
+  res.send('hello');
+  next();
+});
+app.use('/auth', authRoute);
 
 app.use('/card', cardRoute);
 
