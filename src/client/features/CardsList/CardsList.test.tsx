@@ -21,10 +21,11 @@ describe('CardsList', () => {
       },
     ];
 
-    jest.spyOn(window, 'fetch').mockImplementation(() =>
+    jest.spyOn(window, 'fetch').mockImplementation(
+      () =>
         Promise.resolve({
           json: () => Promise.resolve(mockCards),
-        }) as Promise<Response>,
+        }) as Promise<Response>
     );
 
     render(<CardsList />);
