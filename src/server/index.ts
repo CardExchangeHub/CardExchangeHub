@@ -6,20 +6,25 @@ import express, {
 } from 'express';
 import { Client } from 'pg';
 
+import cardRoute from './routes/card_route';
+
 // import dotenv from 'dotenv';
 
 // dotenv.config();
 
 const app = express();
+
 const port = 3000;
 
-const db = new Client(
-  'postgres://opwlobos:OqX_0FRKl6jbRTbtUdaRKZyx1x1ctHHI@drona.db.elephantsql.com/opwlobosg'
-);
+// const db = new Client(
+//   'postgres://opwlobos:OqX_0FRKl6jbRTbtUdaRKZyx1x1ctHHI@drona.db.elephantsql.com/opwlobosg'
+// );
 
-db.connect();
+// db.connect();
 //
 app.use('/auth');
+
+app.use('/card', cardRoute);
 
 const errorHandler: ErrorRequestHandler = (
   err: any,

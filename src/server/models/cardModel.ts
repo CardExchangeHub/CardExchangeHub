@@ -2,8 +2,7 @@
 const { Pool } = require('pg');
 
 const PG_URI =
-  'postgres://opwlobos:OqX_0FRKl6jbRTbtUdaRKZyx1x1ctHHI@drona.db.elephantsql.com/opwlobosg';
-
+  'postgres://xavqqxar:zbcTxGFLrN6FHrF6DEuAo3cTeGd_Q5W6@rajje.db.elephantsql.com/xavqqxar';
 // create a new pool here using the connection string above...pools all querys together so you can credit a single connection
 const pool = new Pool({
   connectionString: PG_URI,
@@ -15,7 +14,7 @@ const pool = new Pool({
 // which is a function that returns the invocation of pool.query() after logging the query
 // This will be required in the controllers to be the access point to the database
 module.exports = {
-  query: (text, params, callback) => {
+  query: (text: any, params: any, callback: any) => {
     console.log('executed query', text);
     return pool.query(text, params, callback);
   },
