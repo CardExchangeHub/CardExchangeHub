@@ -3,15 +3,16 @@ import { Request, Response, NextFunction } from 'express';
 
 // import db from '../models/cardExHub';
 
-const db = require('../models/cardExHub');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const db = require('../models/cardModel');
 
 module.exports = {
-  getCards: async (req: Request, res: Response, next: NextFunction) => {
+  getCards: async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const cardsQuery = 'SELECT * FROM cards_for_sale';
       const cardsData = await db.query(cardsQuery);
       res.locals.cards = cardsData.rows;
-      next();
+      return next();
     } catch (err) {
       return next({
         log: `Error in getCards middleware: ${err}`,
