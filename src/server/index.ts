@@ -3,27 +3,22 @@ import express, {
   Request,
   Response,
   NextFunction,
+  urlencoded,
 } from 'express';
 
-import { Client } from 'pg';
+import dotenv from 'dotenv';
+dotenv.config();
 
-import cardRoute from './routes/card_route';
-import authRoute from './routes/auth_route';
-// import dotenv from 'dotenv';
-
-// dotenv.config();
-
+import cardRoute from './routes/card_route.js';
+import authRoute from './routes/auth_route.js';
 const app = express();
 
 const port = 3000;
 
-// const db = new Client(
-//   'postgres://opwlobos:OqX_0FRKl6jbRTbtUdaRKZyx1x1ctHHI@drona.db.elephantsql.com/opwlobosg'
-// );
+app.use(express.json());
+app.use(urlencoded({ extended: true }));
 
-// db.connect();
-//
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
+app.get('/', (_req: Request, res: Response, next: NextFunction) => {
   res.send('hello');
   next();
 });

@@ -1,8 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { Pool } = require('pg');
+import pg from 'pg';
+const { Pool } = pg;
 
+// const PG_URI =
+//   'postgres://xavqqxar:zbcTxGFLrN6FHrF6DEuAo3cTeGd_Q5W6@rajje.db.elephantsql.com/xavqqxar';
 const PG_URI =
-  'postgres://xavqqxar:zbcTxGFLrN6FHrF6DEuAo3cTeGd_Q5W6@rajje.db.elephantsql.com/xavqqxar';
+  'postgres://bgykwpyk:M7PKWhHObl7GjMaIV178NeW028ucfbec@suleiman.db.elephantsql.com/bgykwpyk';
 // create a new pool here using the connection string above...pools all querys together so you can credit a single connection
 const pool = new Pool({
   connectionString: PG_URI,
@@ -13,9 +16,4 @@ const pool = new Pool({
 // We export an object that contains a property called query,
 // which is a function that returns the invocation of pool.query() after logging the query
 // This will be required in the controllers to be the access point to the database
-module.exports = {
-  query: (text: any, params: any, callback: any) => {
-    console.log('executed query', text);
-    return pool.query(text, params, callback);
-  },
-};
+export default pool;
