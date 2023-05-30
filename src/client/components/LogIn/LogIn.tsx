@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import FormInput from '../FormInput/FormInput';
 
-interface UserInfo {
+export interface UserInfo {
   email: string;
   password: string;
 }
 
-const loginUser = (
+export function LoginUser(
   credentials: UserInfo,
   updateLoginStatus: (status: boolean) => void
-): void => {
-  fetch('/user/login', {
+) {
+  return fetch('/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -22,13 +22,14 @@ const loginUser = (
     .then((data) => {
       if (data.message === 'user authenticated') {
         updateLoginStatus(true);
+        return true;
+      } else {
+        return false;
       }
     });
-};
+}
 
-export default function Login() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+const LogIn: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,29 +48,39 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await loginUser(userInfo, setIsLoggedIn);
+    const loggedIn = await LoginUser(userInfo, setIsLoggedIn);
+    if (loggedIn) {
+      // Update login status or navigate to another page
+      console.log('Logged in successfully');
+    } else {
+      // Handle failed login, display error message, etc.
+      console.log('Login failed');
+    }
   };
   return (
     <div className="login">
       <form onSubmit={handleSubmit}>
         <h2>Log In With Email</h2>
         <FormInput
-          value={email}
-          onChange={handleChange}
           label="Email"
+          value={userInfo.email}
+          onChange={handleChange}
           placeholder="email@email.com"
           name="email"
+          type="text"
         />
         <FormInput
-          value={password}
-          onChange={handleChange}
           label="Password"
+          value={userInfo.password}
+          onChange={handleChange}
           placeholder="********"
           name="password"
           type="password"
         />
-        <button>Submit</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
-}
+};
+
+export default LogIn;
