@@ -78,6 +78,12 @@ const LogIn: React.FC = () => {
           type="password"
         />
         <button type="submit">Submit</button>
+        <button
+          className="text-gray-700 text-sm font-bold hover:underline focus:outline-none"
+          type="button"
+        >
+          Forgot Password?
+        </button>
       </form>
     </div>
   );
