@@ -21,7 +21,7 @@ export const fetchCardsList = async (
           dateAdded: '5/5/2021',
           images: {
             small:
-              'https://www.giantbomb.com/a/uploads/scale_small/13/135472/1891763-006charizard.png',
+              'https://product-images.tcgplayer.com/fit-in/874x874/246758.jpg',
             large: 'Blastoise',
           },
         },
@@ -33,7 +33,7 @@ export const fetchCardsList = async (
           dateAdded: '5/5/2021',
           images: {
             small:
-              'https://mir-s3-cdn-cf.behance.net/project_modules/fs/41f2ae115606005.6051ca43c30bd.jpg',
+              'https://product-images.tcgplayer.com/fit-in/874x874/277014.jpg',
             large: 'Blastoise',
           },
         },

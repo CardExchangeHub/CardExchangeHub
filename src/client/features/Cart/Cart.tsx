@@ -7,8 +7,10 @@ interface CartItem {
 }
 
 export const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [showModal, setShowModal] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([
+    { id: 1, name: 'dragon', price: 10 },
+    { id: 2, name: 'dragon', price: 20 },
+  ]);
 
   const addItemToCart = (item: CartItem) => {
     setCartItems((prevItems) => [...prevItems, item]);
@@ -18,27 +20,33 @@ export const Cart: React.FC = () => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
-  const toggleModal = () => {
-    setShowModal((prevValue) => !prevValue);
+  const calculateTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + item.price, 0);
   };
 
   return (
     <>
-      <button className="cart-toggle">Open Cart</button>
-      <div className="cart-modal">
-        <h2>Shopping Cart</h2>
+      <div className="cart">
+        <h2 className="mb-1 font-bold ">Your Cart</h2>
         <ul>
           {cartItems.map((item) => (
-            <li key={item.id}>
-              <span>{item.name}</span>
-              <span>${item.price}</span>
-              <button onClick={() => removeItemFromCart(item.id)}>
-                Remove
+            <li
+              className="p-2 m-1 rounded-xl border-dotted border-white border-2"
+              key={item.id}
+            >
+              <button
+                className="delete-btn"
+                onClick={() => removeItemFromCart(item.id)}
+              >
+                -
               </button>
+              <span className="m-1 font-light">{item.name}</span>
+              <span className="m-1 font-light">${item.price}</span>
             </li>
           ))}
         </ul>
-        <button>Checkout</button>
+        <div className="m-4 font-bold">Total: ${calculateTotalPrice()}</div>
+        <button className="checkout-btn">Checkout</button>
       </div>
     </>
   );

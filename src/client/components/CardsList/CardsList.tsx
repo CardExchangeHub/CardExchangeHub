@@ -51,7 +51,7 @@ const CardsList: React.FC = () => {
   // }
 
   return (
-    <>
+    <div className="flex justify-evenly flex-wrap border-dotted border-2 border-white rounded-[50px] mx-20">
       {cards.map((card, i) => {
         if (cards.length === i + 1) {
           console.log('last card');
@@ -61,7 +61,7 @@ const CardsList: React.FC = () => {
       })}
       {cardStatus === 'loading' && <Spinner text="Loading..." />}
       {cardStatus === 'failed' && <div>{error}</div>}
-    </>
+    </div>
   );
 };
 

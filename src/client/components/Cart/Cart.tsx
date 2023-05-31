@@ -19,47 +19,50 @@ const Cart = () => {
   }, [cartItems]);
 
   return (
-    <div className="cart-container">
-      <h2>Shopping Cart</h2>
+    <div className="flex flex-col justify-center items-center">
+      <h2 className="font-bold mb-5 text-5xl opacity-30">Your Cart</h2>
       {!cartItems.length ? (
-        <div className="cart-empty">
-          <p>Your cart is currently empty</p>
+        <div className="flex flex-col justify-center items-center">
+          <p className="font-light opacity-30 text-xl tracking-widest">
+            - Your cart is currently empty -
+          </p>
           <div className="start-shopping">
             <Link to="/">
-              <span>start shopping</span>
+              <span className="shop-btn">start shopping</span>
             </Link>
           </div>
         </div>
       ) : (
         <div>
-          <div className="titles">
+          {/* <div className="titles">
             <h3 className="product-title">Product</h3>
             <h3 className="price">Price</h3>
             <h3 className="quantity">Quantity</h3>
             <h3 className="total">Total</h3>
-          </div>
-          <div className="cart-items">
+          </div> */}
+          <div className="flex justify-evenly flex-wrap border-dotted border-2 border-white rounded-[50px] mx-20">
             {cartItems.map((card, i) => {
               return <CardComponent key={card.id} card={card} />;
             })}
           </div>
-          <div className="cart-summary">
-            <button
-              className="clear-cart"
-              onClick={() => dispatch(clearCart())}
-            >
+          <div className="flex flex-col justfiy-center items-center">
+            <button className="clear-btn" onClick={() => dispatch(clearCart())}>
               Clear Cart
             </button>
-            <div className="cart-checkout">
+            <div className="flex flex-col justfiy-center items-center">
               <div className="subtotal">
-                <span>Subtotal</span>
-                <span className="amount">${totalAmount}</span>
+                <span className="font-bold text-xl">Subtotal: </span>
+                <span className="font-bold text-xl text-green-500">
+                  ${totalAmount}
+                </span>
               </div>
-              <p>Taxes and shipping calculated at checkout</p>
-              <button className="checkout">Check out</button>
+              <p className="font-light">
+                * Taxes and shipping calculated at checkout
+              </p>
+              <button className="checkout-btn bg-red">Check out</button>
               <div className="continue-shopping">
                 <Link to="/">
-                  <span>Continue Shopping</span>
+                  <span className="shop-btn">Continue Shopping</span>
                 </Link>
               </div>
             </div>
