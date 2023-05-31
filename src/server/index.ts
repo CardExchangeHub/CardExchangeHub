@@ -6,11 +6,9 @@ import express, {
   urlencoded,
 } from 'express';
 
-import dotenv from 'dotenv';
-dotenv.config();
-
 import cardRoute from './routes/card_route.js';
 import authRoute from './routes/auth_route.js';
+
 const app = express();
 
 const port = 3000;
@@ -27,7 +25,7 @@ app.use('/auth', authRoute);
 app.use('/card', cardRoute);
 
 const errorHandler: ErrorRequestHandler = (
-  err: any,
+  err: Error,
   _req: Request,
   res: Response,
   _next: NextFunction
@@ -38,6 +36,7 @@ const errorHandler: ErrorRequestHandler = (
     message: { err: 'An error occurred' },
   };
   const errorObj = Object.assign(defaultErr, err);
+  // eslint-disable-next-line no-console
   console.log(errorObj.log);
 
   return res.status(errorObj.status).json({
@@ -48,5 +47,6 @@ const errorHandler: ErrorRequestHandler = (
 app.use(errorHandler);
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server is running on port ${port}`);
 });
