@@ -25,18 +25,28 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
   };
 
   const cardBody = (
-    <div>
-      <img src={images.small} alt="cards" />
-      <p>Quality: {quality}</p>
-      <p>Market Price: ${marketPrice}</p>
-      <p>Seller Price: ${sellerPrice}</p>
+    <div className="cards-container">
+      <img className="w-60 rounded-2xl" src={images.small} alt="cards" />
+      <p className="m-2 font-light">Quality: {quality}</p>
+      <p className="m-2 font-light">Market Price: ${marketPrice}</p>
+      <p className="m-2 font-light">Seller Price: ${sellerPrice}</p>
       {(pathname === '/cart' && (
-        <div className="card-cart-components">
-          <button onClick={() => dispatch(removeFromCart(card))}>Remove</button>
-          <p>Quantity: {cartQuantity}</p>
-          <p>Item total: {cartQuantity * sellerPrice}</p>
+        <div className="flex flex-col items-center">
+          <p className="font-light">Quantity: x {cartQuantity}</p>
+          <button
+            className="clear-btn"
+            onClick={() => dispatch(removeFromCart(card))}
+          >
+            Remove
+          </button>
+
+          {/* <p>Item total: {cartQuantity * sellerPrice}</p> */}
         </div>
-      )) || <button onClick={() => handleAddToCart(card)}>Add to Cart</button>}
+      )) || (
+        <button className="add-cart-btn" onClick={() => handleAddToCart(card)}>
+          Add to Cart
+        </button>
+      )}
     </div>
   );
 

@@ -16,7 +16,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   store?: AppStore;
 }
 
-export function renderWithProviders(
+export async function renderWithProviders(
   ui: React.ReactElement,
   {
     preloadedState = {},

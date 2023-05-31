@@ -1,11 +1,10 @@
 import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithProviders } from '../../../../utils/test-utils';
 import CardsList from './CardsList';
-import { BrowserRouter } from 'react-router-dom';
 
 describe('CardsList', () => {
   // handle intersection observer mock
