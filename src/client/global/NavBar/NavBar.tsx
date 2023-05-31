@@ -1,7 +1,6 @@
 // export default Navbar;
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Cart } from '../../features/Cart/Cart';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import LogIn from '../../components/LogIn/LogIn';
 import useDebounce from '../../hooks/useDebounce';

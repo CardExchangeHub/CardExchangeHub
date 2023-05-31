@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext } from 'react';
 // import NavBar from '../../global/NavBar/NavBar';
 import CardsList from '../CardsList/CardsList';
-import { Cart } from '../../features/Cart/Cart';
+// import { Cart } from '../Cart/Cart';
 
 const HomePage: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       <CardsList />
-      <Cart />
+      {/* <Cart /> */}
     </>
   );
 };
