@@ -1,10 +1,13 @@
 // eslint-disable-next-line import/no-import-module-exports
 import { Request, Response, NextFunction } from 'express';
 
-// import db from '../models/cardExHub';
+// eslint-disable-next-line @typescript-eslint/no-var-requires, import/first
+import db from '../models/cardModel.js';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import db from '../models/cardModel.js';
+require('dotenv').config();
+
+const { pokemon } = process.env;
 
 export default {
   // currently working on. need to add cards to test this.
@@ -50,18 +53,18 @@ export default {
       );
 
       // check to see if card is already in the possible cards table
-      const possibleCard = await db.query(
-        'SELECT * FROM "public.cards" WHERE id = $1',
-        [newCard.rows[0].cardId]
-      );
+      // const possibleCard = await db.query(
+      //   'SELECT * FROM "public.cards" WHERE id = $1',
+      //   [newCard.rows[0].cardId]
+      // );
 
       // if card isnt in possible cards table, add it
-      if (possibleCard.rowCount === 0) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const possibleCards = await db.query(
-          'INSERT INTO "public.cards" (id) VALUES ($1) RETURNING *'
-        );
-      }
+      // if (possibleCard.rowCount === 0) {
+      //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      //   const possibleCards = await db.query(
+      //     'INSERT INTO "public.cards" (id) VALUES ($1) RETURNING *'
+      //   );
+      // }
 
       // get all the cards
       const cardsData = await db.query(
