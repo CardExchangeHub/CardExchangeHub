@@ -16,7 +16,7 @@ CREATE TABLE "public.market_postings" (
 	"seller" integer NOT NULL,
 	"cardId" integer NOT NULL,
 	"sold" BOOLEAN NOT NULL DEFAULT 'false',
-	"buyer" integer DEFAULT 'null',
+	"buyer" integer DEFAULT NULL,
 	CONSTRAINT "market_postings_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -37,7 +37,7 @@ CREATE TABLE "public.cards" (
 
 
 
-ALTER TABLE "market_postings" ADD CONSTRAINT "market_postings_fk0" FOREIGN KEY ("seller") REFERENCES "Users"("id");
-ALTER TABLE "market_postings" ADD CONSTRAINT "market_postings_fk1" FOREIGN KEY ("cardId") REFERENCES "cards"("id");
-ALTER TABLE "market_postings" ADD CONSTRAINT "market_postings_fk2" FOREIGN KEY ("buyer") REFERENCES "Users"("id");
+ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk0" FOREIGN KEY ("seller") REFERENCES "public.Users"("id");
+ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk1" FOREIGN KEY ("cardId") REFERENCES "public.cards"("id");
+ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk2" FOREIGN KEY ("buyer") REFERENCES "public.Users"("id");
 
