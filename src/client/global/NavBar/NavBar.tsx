@@ -3,6 +3,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Cart } from '../../features/Cart/Cart';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import LogIn from '../../components/LogIn/LogIn';
 import useDebounce from '../../hooks/useDebounce';
 
 const Navbar: React.FC = () => {
@@ -10,10 +11,7 @@ const Navbar: React.FC = () => {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setLoading] = useState(false);
-
-  const handleCartClick = () => {
-    setIsCartOpen(!isCartOpen);
-  };
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // State for login modal
 
   // // custom debounce search hook to handle dynamic search input query
   const debouncedSearch = useDebounce(searchQuery, 500);
@@ -37,6 +35,9 @@ const Navbar: React.FC = () => {
     setSearchQuery(e.target.value);
     setCards([]);
   };
+  const handleLoginClick = () => {
+    setIsLoginModalOpen(!isLoginModalOpen); // Toggle the login modal state
+  };
 
   return (
     <nav className="flex items-center justify-between bg-gray-800 text-white p-4">
@@ -51,9 +52,15 @@ const Navbar: React.FC = () => {
         />
       </div>
       <div className="flex items-center space-x-4">
-        <Link to="login" className="hover:text-gray-300">
+        {/* <Link to="login" className="hover:text-gray-300">
           Log In
-        </Link>
+        </Link> */}
+        <button
+          className="hover:text-gray-300"
+          onClick={handleLoginClick} // Toggle the login modal state on click
+        >
+          Log In
+        </button>
         {/* <button className="hover:text-gray-300" onClick={handleCartClick}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -101,6 +108,7 @@ const Navbar: React.FC = () => {
           </svg>
         </Link>
       </div>
+      {isLoginModalOpen && <LogIn />} {/* Render the login modal component */}
     </nav>
   );
 };
