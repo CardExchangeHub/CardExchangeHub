@@ -38,15 +38,13 @@ export default {
         // eslint-disable-next-line no-console
         console.log('user not found');
         return null;
-      }
-
-      // insert card into database
+      } // insert card into database
       const newCard = await db.query(
-        'INSERT INTO "public.market_postings" (price, condition,seller,"cardId" ) VALUES ($1,$2,$3, $4) RETURNING *',
+        'INSERT INTO "public.market_postings" (price, condition, seller, "cardId") VALUES ($1, $2, $3, $4) RETURNING *',
         [
           req.body.card_price,
           req.body.card_description,
-          cardHolder,
+          cardHolder.rows[0].id,
           req.body.cardId,
         ]
       );
