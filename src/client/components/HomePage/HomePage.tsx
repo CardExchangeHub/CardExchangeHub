@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext } from 'react';
-import CardsList from './CardsList/CardsList';
+import CardsList from '../CardsList/CardsList';
 function HomePage() {
   return (
     <div className="">

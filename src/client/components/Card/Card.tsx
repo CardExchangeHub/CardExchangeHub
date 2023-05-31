@@ -1,7 +1,11 @@
 import React, { forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card } from '../../features/CardsList/cardsSlice';
-import { addToCart, removeFromCart, decreaseCart } from '../../features/Cart/cartSlice';
+import {
+  addToCart,
+  removeFromCart,
+  decreaseCart,
+} from '../../features/Cart/cartSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 interface CardProps {
