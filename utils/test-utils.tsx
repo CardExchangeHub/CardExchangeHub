@@ -4,19 +4,10 @@ import type { RenderOptions } from '@testing-library/react';
 import { configureStore } from '@reduxjs/toolkit';
 import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import storage from 'redux-persist/lib/storage';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import { BrowserRouter } from 'react-router-dom';
 import { AppStore, RootState, setupStore } from '../src/client/app/store';
-// As a basic setup, import your same slice reducers
-import cartReducer from '../src/client/features/Cart/cartSlice';
-import cardsReducer from '../src/client/features/CardsList/cardsSlice';
-
-const persistConfig = {
-  key: 'root',
-  storage,
-};
+import { MemoryRouter } from 'react-router-dom';
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -38,7 +29,7 @@ export function renderWithProviders(
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistStore(store)}>
-          {children}
+          <MemoryRouter>{children}</MemoryRouter>
         </PersistGate>
       </Provider>
     );

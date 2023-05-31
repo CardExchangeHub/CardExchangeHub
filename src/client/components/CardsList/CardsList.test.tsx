@@ -8,17 +8,53 @@ import CardsList from './CardsList';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('CardsList', () => {
+  // handle intersection observer mock
+  const observerMap = new Map();
+  const instanceMap = new Map();
+
   beforeEach(() => {
-    jest.clearAllMocks();
-    jest.mock('redux-persist/integration/react', () => ({
-      PersistGate: ({ children }) => <div>{children}</div>,
-    }));
+    // @ts-ignore
+    global.IntersectionObserver = jest.fn((cb, options = {}) => {
+      const instance = {
+        thresholds: Array.isArray(options.threshold)
+          ? options.threshold
+          : [options.threshold],
+        root: options.root,
+        rootMargin: options.rootMargin,
+        observe: jest.fn((element: Element) => {
+          instanceMap.set(element, instance);
+          observerMap.set(element, cb);
+        }),
+        unobserve: jest.fn((element: Element) => {
+          instanceMap.delete(element);
+          observerMap.delete(element);
+        }),
+        disconnect: jest.fn(),
+      };
+      return instance;
+    });
+  });
+
+  afterEach(() => {
+    // @ts-ignore
+    global.IntersectionObserver.mockReset();
+    instanceMap.clear();
+    observerMap.clear();
   });
 
   test('renders cards on screen', async () => {
-    await renderWithProviders(<CardsList />, { wrapper: BrowserRouter });
-    screen.debug();
-    // Example of interacting with the component and asserting the changes
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    renderWithProviders(<CardsList />);
+
+    const quality = await screen.findAllByText(/Quality:/i);
+    const marketPrice = await screen.findAllByText(/Market Price:/i);
+    const sellerPrice = await screen.findAllByText(/Seller Price:/i);
+    const button = await screen.findAllByRole('button', {
+      name: /Add to Cart/,
+    });
+
+    expect(quality[0]).toBeInTheDocument();
+    expect(marketPrice[0]).toBeInTheDocument();
+    expect(sellerPrice[0]).toBeInTheDocument();
+    expect(button[0]).toBeInTheDocument();
   });
 });
