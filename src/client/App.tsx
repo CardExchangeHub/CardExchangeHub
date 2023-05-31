@@ -5,7 +5,8 @@ import Sellers from './components/Sellers';
 import NotFound from './components/NotFound';
 import LogIn from './components/LogIn/LogIn';
 import LogOut from './components/LogOut/LogOut';
-import NavBar from './components/NavBar/NavBar';
+import NavBar from './global/NavBar/NavBar';
+import { Cart } from './features/Cart/Cart';
 import './styles/main.css';
 import Cookies from 'js-cookie';
 
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/sellers" element={<Sellers />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/logout" element={<LogOut />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
