@@ -23,12 +23,11 @@
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block;
-  font-family: din-round,sans-serif;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: .8px;
   line-height: 20px;
-  margin: 1rem;
+  margin-top: 1rem;
   outline: none;
   overflow: visible;
   padding: 13px 16px;
@@ -83,12 +82,11 @@
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block;
-  font-family: din-round,sans-serif;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: .8px;
   line-height: 20px;
-  margin-top: 1rem;
+  margin: 1rem;
   outline: none;
   overflow: visible;
   padding: 13px 16px;
@@ -143,7 +141,6 @@
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block;
-  font-family: din-round,sans-serif;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: .8px;

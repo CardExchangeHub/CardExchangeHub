@@ -45,7 +45,7 @@ const DropDown: React.FC = () => {
         className="text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center"
         onClick={handleToggle}
       >
-        <span className="mr-1 text-white">Select Card</span>
+        <span className="mr-1 text-black opacity-30">Select Card</span>
         <svg
           className={`fill-current h-4 w-4 ${
             isOpen ? 'transform rotate-180' : ''

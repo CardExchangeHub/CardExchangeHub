@@ -19,8 +19,8 @@ const Cart = () => {
   }, [cartItems]);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h2 className="font-bold mb-5 text-5xl opacity-30">Your Cart</h2>
+    <div className="mt-3 flex flex-col justify-center items-center">
+      <h2 className="font-bold my-5 text-5xl opacity-30">Your Cart</h2>
       {!cartItems.length ? (
         <div className="flex flex-col justify-center items-center">
           <p className="font-light opacity-30 text-xl tracking-widest">
@@ -40,26 +40,29 @@ const Cart = () => {
             <h3 className="quantity">Quantity</h3>
             <h3 className="total">Total</h3>
           </div> */}
-          <div className="flex justify-evenly flex-wrap border-dotted border-2 border-white rounded-[50px] mx-20">
+          <div className="flex justify-evenly flex-wrap border-dashed border-2 border-white rounded-[50px] mx-20 px-4">
             {cartItems.map((card, i) => {
               return <CardComponent key={card.id} card={card} />;
             })}
           </div>
           <div className="flex flex-col justfiy-center items-center">
-            <button className="clear-btn" onClick={() => dispatch(clearCart())}>
-              Clear Cart
-            </button>
-            <div className="flex flex-col justfiy-center items-center">
-              <div className="subtotal">
-                <span className="font-bold text-xl">Subtotal: </span>
-                <span className="font-bold text-xl text-green-500">
+            <button className="checkout-btn bg-red">Check out</button>
+            <div className="flex flex-col justfiy-center items-center  ">
+              <div className="">
+                <span className="font-extrabold text-xl">Subtotal: </span>
+                <span className="font-extrabold text-xl text-green-500">
                   ${totalAmount}
                 </span>
               </div>
               <p className="font-light">
                 * Taxes and shipping calculated at checkout
               </p>
-              <button className="checkout-btn bg-red">Check out</button>
+              <button
+                className="clear-btn"
+                onClick={() => dispatch(clearCart())}
+              >
+                Clear Cart
+              </button>
               <div className="continue-shopping">
                 <Link to="/">
                   <span className="shop-btn">Continue Shopping</span>
