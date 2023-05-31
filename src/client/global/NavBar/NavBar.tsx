@@ -40,8 +40,11 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-gray-800 text-white p-4">
-      <Link to="/" className="text-2xl font-bold">
+    <nav className="navbar">
+      <Link
+        to="/"
+        className="font-extrabold text-transparent text-2xl bg-clip-text bg-gradient-to-r from-red-500 via-yellow-300 via-green-400 to-blue-400 "
+      >
         Card Xchange Hub
       </Link>
       <div className="flex items-center justify-center flex-grow">
@@ -56,7 +59,7 @@ const Navbar: React.FC = () => {
           Log In
         </Link> */}
         <button
-          className="hover:text-gray-300"
+          className="text-xl text-gray-400 hover:text-white"
           onClick={handleLoginClick} // Toggle the login modal state on click
         >
           Log In
@@ -90,7 +93,7 @@ const Navbar: React.FC = () => {
           </button>
         </div>
       )} */}
-        <Link to="/cart" className="hover:text-gray-300">
+        <Link to="/cart" className="text-xl text-gray-400 hover:text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

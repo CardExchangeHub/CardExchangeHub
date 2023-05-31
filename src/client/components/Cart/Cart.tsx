@@ -19,8 +19,8 @@ const Cart = () => {
   }, [cartItems]);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h2 className="font-bold mb-5 text-5xl opacity-30">Your Cart</h2>
+    <div className="mt-3 flex flex-col justify-center items-center">
+      <h2 className="font-bold my-5 text-5xl opacity-30">Your Cart</h2>
       {!cartItems.length ? (
         <div className="flex flex-col justify-center items-center">
           <p className="font-light opacity-30 text-xl tracking-widest">
