@@ -78,6 +78,8 @@ export default {
       await db.query('DELETE FROM cards_for_sale WHERE id = $1', [
         req.params.id,
       ]);
+      const cardsData = await db.query('SELECT * FROM cards_for_sale');
+      res.locals.cards = cardsData.rows;
       return next();
     } catch (err) {
       return next({
@@ -100,6 +102,7 @@ export default {
         'INSERT INTO cards_purchased (buyer_id, condition, price, seller, name) VALUES ($1, $2, $3, $4, $5)',
         [req.body.buyerId, condition, price, seller, name]
       );
+      res.locals.newPurchase = newPurchase.rows;
       return next();
     } catch (err) {
       return next({});
