@@ -7,23 +7,41 @@ import cardController from '../controllers/cardController.js';
 
 const router = Router();
 
-// get all cards
-// router.get('/', cardController.getCards, (_req: Request, res: Response) => {
-//   res.status(200).json(res.locals.cards);
-// });
+// get cards for sale
+router.get(
+  '/',
+  cardController.getCardsForSale,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.cards);
+  }
+);
 
 // add card
-// router.post('/', cardController.addCard, (req: Request, res: Response) => {
-//   res.status(200).json(res.locals.cards);
-// });
+router.post('/:id', cardController.addCard, (req: Request, res: Response) => {
+  res.status(200).json(res.locals.cards);
+});
 
-// router.post('/', addCard, (req: Request, res: Response) => {
-//   res.status(200).json(res.locals.cards);
-// });
+// delete card
+router.delete(
+  '/:id',
+  cardController.deleteCard,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.cards);
+  }
+);
+
+// add purchase
+router.put(
+  '/:id',
+  cardController.purchasedCard,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.newPurchase);
+  }
+);
 
 // edit card
-// router.put('/:id', cardController.editCard, (req: Request, res: Response) => {
-//   res.status(200).json(res.locals.cards);
-// });
+router.put('/:id', cardController.editCard, (req: Request, res: Response) => {
+  res.status(200).json(res.locals.cards);
+});
 
 export default router;
