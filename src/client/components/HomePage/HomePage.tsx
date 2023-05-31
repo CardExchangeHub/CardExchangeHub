@@ -1,12 +1,12 @@
 import React, { useEffect, useState, createContext } from 'react';
-import NavBar from '../NavBar/NavBar';
+// import NavBar from '../../global/NavBar/NavBar';
 import CardsList from '../CardsList/CardsList';
 import { Cart } from '../../features/Cart/Cart';
 
 const HomePage: React.FC = () => {
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <div className="splash-container">
         <div className="gallery">
           <div className="img-box"></div>

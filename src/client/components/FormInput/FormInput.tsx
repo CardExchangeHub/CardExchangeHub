@@ -11,6 +11,7 @@ const FormInput: React.FC<FormInputProps> = ({
   label,
   placeholder,
   type,
+  onChange,
   ...rest
 }) => {
   return (
@@ -20,6 +21,7 @@ const FormInput: React.FC<FormInputProps> = ({
         name={name}
         type={type}
         placeholder={placeholder}
+        onChange={onChange}
         {...rest}
       />
       <label htmlFor={name}>{label}</label>
