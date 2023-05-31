@@ -1,5 +1,3 @@
-// add purchases
-
 // eslint-disable-next-line import/no-import-module-exports
 import { Response, Request, Router } from 'express';
 // eslint-disable-next-line import/no-import-module-exports

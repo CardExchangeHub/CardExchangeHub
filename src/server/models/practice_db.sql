@@ -37,7 +37,7 @@ CREATE TABLE "public.cards" (
 
 
 
-ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk0" FOREIGN KEY ("seller") REFERENCES "public.Users"("id");
-ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk1" FOREIGN KEY ("cardId") REFERENCES "public.cards"("id");
-ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk2" FOREIGN KEY ("buyer") REFERENCES "public.Users"("id");
+ALTER TABLE "market_postings" ADD CONSTRAINT "market_postings_fk0" FOREIGN KEY ("seller") REFERENCES "public.Users"("id");
+ALTER TABLE "market_postings" ADD CONSTRAINT "market_postings_fk1" FOREIGN KEY ("cardId") REFERENCES "public.cards"("id");
+ALTER TABLE "market_postings" ADD CONSTRAINT "market_postings_fk2" FOREIGN KEY ("buyer") REFERENCES "public.Users"("id");
 

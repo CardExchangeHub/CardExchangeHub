@@ -11,7 +11,7 @@ export default {
   getCardsForSale: async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const cardsQuery =
-        'SELECT * FROM public.market_postings WHERE sold = ($1)';
+        'SELECT * FROM "public.market_postings" WHERE sold = ($1)';
       const cardsForSale = await db.query(cardsQuery, [false]);
       res.locals.cards = cardsForSale;
       return next();
@@ -27,19 +27,22 @@ export default {
   },
   addCard: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // get userId
       const cardHolder = await db.query(
-        'SELECT public.Users.id FROM `public.Users` WHERE public.Users.id = $1',
+        'SELECT id FROM "public.Users" WHERE id = $1',
         [req.params.id]
       );
 
       // check if user isnt found
       if (cardHolder.rowCount === 0) {
+        // eslint-disable-next-line no-console
+        console.log('user not found');
         return null;
       }
 
       // insert card into database
       const newCard = await db.query(
-        'INSERT INTO public.market_postings (price, condition,seller,cardId ) VALUES ($1,$2,$3, $4) RETURNING *',
+        'INSERT INTO "public.market_postings" (price, condition,seller,"cardId" ) VALUES ($1,$2,$3, $4) RETURNING *',
         [
           req.body.card_price,
           req.body.card_description,
@@ -50,7 +53,7 @@ export default {
 
       // check to see if card is already in the possible cards table
       const possibleCard = await db.query(
-        'SELECT * FROM public.cards WHERE id = $1',
+        'SELECT * FROM "public.cards" WHERE id = $1',
         [newCard.rows[0].cardId]
       );
 
@@ -58,12 +61,14 @@ export default {
       if (possibleCard.rowCount === 0) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const possibleCards = await db.query(
-          'INSERT INTO public.cards (id) VALUES ($1) RETURNING *'
+          'INSERT INTO "public.cards" (id) VALUES ($1) RETURNING *'
         );
       }
 
       // get all the cards
-      const cardsData = await db.query('SELECT * FROM public.market_postings');
+      const cardsData = await db.query(
+        'SELECT * FROM "public.market_postings"'
+      );
       res.locals.cards = cardsData.rows;
       return next();
     } catch (err) {
