@@ -1,17 +1,21 @@
 import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, BrowserRouter } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import Sellers from './components/Sellers';
+import Cart from './components/Cart/Cart';
+import NotFound from './components/NotFound/NotFound';
 import './styles/main.css';
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/sellers" element={<Sellers />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    </div>
+    </BrowserRouter>
   );
 }
 
