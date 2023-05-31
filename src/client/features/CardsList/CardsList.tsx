@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {getCardsListStart, getCardsListSuccess, getCardsListFailure, selectCards} from './cardsListSlice';
+import {
+  getCardsListStart,
+  getCardsListSuccess,
+  getCardsListFailure,
+  selectCards,
+} from './cardsListSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 interface Card {
@@ -11,8 +16,32 @@ interface Card {
 }
 
 const CardsList: React.FC = () => {
-  const [cards, setCards] = useState<Card[]>([]);
-// const cards = useAppSelector(selectCards);
+  //mockCards for development only, will delete once api is setup
+  const mockCards = [
+    {
+      id: 1,
+      image: 'https://product-images.tcgplayer.com/fit-in/874x874/84918.jpg',
+      quality: 'Excellent',
+      marketPrice: 100,
+      sellerPrice: 80,
+    },
+    {
+      id: 2,
+      image: 'https://product-images.tcgplayer.com/fit-in/874x874/84918.jpg',
+      quality: 'Excellent',
+      marketPrice: 100,
+      sellerPrice: 80,
+    },
+    {
+      id: 3,
+      image: 'https://product-images.tcgplayer.com/fit-in/874x874/84918.jpg',
+      quality: 'Excellent',
+      marketPrice: 100,
+      sellerPrice: 80,
+    },
+  ];
+  const [cards, setCards] = useState<Card[]>(mockCards);
+  // const cards = useAppSelector(selectCards);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -33,17 +62,22 @@ const CardsList: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="flex justify-evenly flex-wrap max-w-screen-3xl mx-16 rounded-[50px] border-dotted border-white border-2">
       {cards.map((card) => (
-        <div key={card.id}>
-          <img src={card.image} alt="cards" />
-          <p>Quality: {card.quality}</p>
-          <p>Market Price: ${card.marketPrice}</p>
-          <p>Seller Price: ${card.sellerPrice}</p>
-          <button onClick={() => handleAddToCart(card.id)}>Add to Cart</button>
+        <div className="cards-container" key={card.id}>
+          <img className="w-60 rounded-xl" src={card.image} alt="cards" />
+          <p className="m-1 font-light">Quality: {card.quality}</p>
+          <p className="m-1 font-light">Market Price: ${card.marketPrice}</p>
+          <p className="m-1 font-light">Seller Price: ${card.sellerPrice}</p>
+          <button
+            className="add-cart-btn"
+            onClick={() => handleAddToCart(card.id)}
+          >
+            Add to Cart
+          </button>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

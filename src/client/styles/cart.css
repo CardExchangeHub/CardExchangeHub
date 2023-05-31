@@ -1,0 +1,88 @@
+.cart{
+    margin: 10rem;
+    padding:2rem;
+    max-width: fit-content;
+    border-radius: 50px;
+    background: #e0e0e0;
+    box-shadow:  20px 20px 60px #bebebe,
+             -20px -20px 60px #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout-btn {
+    background-color: #18c75b;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round,sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin: 0;
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 100%;
+  }
+  
+  .checkout-btn:after {
+    background-clip: padding-box;
+    background-color: #18c75b;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+  }
+  
+  .checkout-btn:main,
+  .checkout-btn:focus {
+    user-select: auto;
+  }
+  
+  .checkout-btn:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+  }
+  
+  .checkout-btn:disabled {
+    cursor: auto;
+  }
+
+  .delete-btn {
+    padding: 1px 10px;
+    margin-left: 2px;
+    border-radius: 50px;
+    border: 2px solid rgb(251, 251, 251);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background: linear-gradient(225deg, #e6e6e6, #ffffff);
+    box-shadow: -20px 20px 60px #d9d9d9, 20px -20px 60px #ffffff;
+
+}
+
+.delete-btn:hover {
+    background: red;
+    color: white;
+  }

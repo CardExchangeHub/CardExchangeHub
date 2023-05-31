@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('splashPage.css');
+@import url('cardsContainer.css');
+@import url('cart.css');
+
+body {
+    background-color: #e0e0e0;
+}
