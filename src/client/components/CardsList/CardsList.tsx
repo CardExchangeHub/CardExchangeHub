@@ -51,7 +51,7 @@ const CardsList: React.FC = () => {
   // }
 
   return (
-    <div className="flex justify-evenly flex-wrap border-dotted border-2 border-white rounded-[50px] mx-20">
+    <div className="flex justify-evenly flex-wrap border-dashed border-2 border-white rounded-[50px] mx-20">
       {cards.map((card, i) => {
         if (cards.length === i + 1) {
           console.log('last card');
