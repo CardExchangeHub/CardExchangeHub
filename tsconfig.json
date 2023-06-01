@@ -9,10 +9,10 @@
     "allowJs": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": "./",
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true
   },
   "exclude": [
@@ -24,5 +24,5 @@
     "jest",
     "src/setupTests.ts"
   ],
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/client/App.test.tsx"]
 }

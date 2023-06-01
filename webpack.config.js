@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //const path = require('path');
 import path from 'path';
 //const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -34,12 +35,9 @@ export default {
         exclude: /node_modules/,
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        exclude: /node_modules/,
       },
     ],
   },

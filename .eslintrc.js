@@ -1,5 +1,5 @@
 module.exports = {
-  env: { browser: true, es2020: true, node: true },
+  env: { browser: true, es2020: true, node: true, jest: true },
   extends: [
     'airbnb',
     'airbnb/hooks',
@@ -28,5 +28,6 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'react/function-component-definition': [2, 'never'],
   },
 };
