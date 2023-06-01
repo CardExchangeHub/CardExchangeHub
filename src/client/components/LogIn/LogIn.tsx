@@ -107,7 +107,9 @@ const LogIn: React.FC = () => {
                   Forgot password?
                 </Link>
                 <div className="mt-2">
-                  <button onClick={handleRegister}>Create an account </button>
+                  <button className="hover:underline" onClick={handleRegister}>
+                    Create an account{' '}
+                  </button>
                 </div>
               </div>
             </form>
