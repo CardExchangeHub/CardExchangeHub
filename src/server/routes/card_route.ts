@@ -32,10 +32,10 @@ router.delete(
 
 // add purchase
 router.put(
-  '/:id',
+  '/:id/purchase',
   cardController.purchasedCard,
   (req: Request, res: Response) => {
-    res.status(200).json(res.locals.newPurchase);
+    res.status(200).json(res.locals.newPurchase || 'already sold');
   }
 );
 
