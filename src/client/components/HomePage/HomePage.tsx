@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext } from 'react';
-// import NavBar from '../../global/NavBar/NavBar';
+import NavBar from '../../global/NavBar/NavBar';
 import CardsList from '../CardsList/CardsList';
 // import { Cart } from '../Cart/Cart';
 

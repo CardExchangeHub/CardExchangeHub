@@ -32,10 +32,10 @@ const Register = () => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="relative bg-white rounded-lg p-8">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-20">
+      <div className="login">
         <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+          className="absolute p-0.5 top-2 right-2 border-2 border-white rounded-[100px] text-red-500 hover:text-white hover:bg-red-500 focus:outline-none"
           onClick={handleClose}
         >
           <svg
@@ -43,7 +43,7 @@ const Register = () => {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            className="h-6 w-6"
+            className="h-5 w-5"
           >
             <path
               strokeLinecap="round"
@@ -53,8 +53,11 @@ const Register = () => {
             />
           </svg>
         </button>
-        <form onSubmit={handleSubmit}>
-          <h2 className="text-lg mb-4 text-gray-800">Create an account</h2>
+        <form
+          className="flex flex-col justify-center items-center"
+          onSubmit={handleSubmit}
+        >
+          <h2 className="text-2xl mb-4 text-white">Create an account</h2>
           <FormInput
             label="Name"
             name="name"
@@ -79,10 +82,7 @@ const Register = () => {
             name="password"
             type="password"
           />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white rounded-md px-4 py-2 mt-4 hover:bg-blue-600"
-          >
+          <button type="submit" className="add-cart-btn mt-2">
             {auth.loginStatus === 'pending' ? 'Submitting...' : 'Submit'}
           </button>
           {auth.loginStatus === 'failed' ? <p>{auth.loginError}</p> : null}
