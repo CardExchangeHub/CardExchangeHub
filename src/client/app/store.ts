@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import cardsReducer from '../features/CardsList/cardsSlice';
 import cartReducer from '../features/Cart/cartSlice';
+import authReducer from '../features/Auth/authSlice';
 import storage from 'redux-persist/lib/storage';
 import {
   persistReducer,
@@ -24,6 +25,7 @@ const persistedReducer = persistReducer(persistConfig, cartReducer);
 const rootReducer = combineReducers({
   cart: persistedReducer,
   cards: cardsReducer,
+  auth: authReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
