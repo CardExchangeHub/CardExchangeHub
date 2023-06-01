@@ -2,7 +2,7 @@
 // add buyer
 
 import { Request, Response, Router } from 'express';
-import authController from '../controllers/authController.js';
+import authController from '../controllers/authController.mjs';
 
 // import controllers specific to this router
 

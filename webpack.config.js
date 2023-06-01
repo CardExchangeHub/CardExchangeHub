@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-//const path = require('path');
-import path from 'path';
-//const HtmlWebpackPlugin = require('html-webpack-plugin');
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { fileURLToPath } from 'url';
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const __filename = path.dirname(__filename);
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-export default {
+module.exports = {
   entry: './src/client/index.tsx',
   output: {
     filename: 'bundle.js',

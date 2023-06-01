@@ -2,17 +2,14 @@
   "name": "cardexchangehub",
   "version": "1.0.0",
   "description": "A website to buy and sell cards",
-  "type": "module",
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "test": "jest --verbose",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --hot --open --progress --color\" \"nodemon ./server/server.js\"",
     "start": "webpack-dev-server --hot --open --progress --color",
-
     "server:start": "nodemon",
-    "server": "ts-node --esm src/server/index.ts",
-
+    "server": "ts-node --esm src/server/index.mts",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx}'"
   },

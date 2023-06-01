@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-import-module-exports
 import { Response, Request, Router } from 'express';
 // eslint-disable-next-line import/no-import-module-exports
-import cardController from '../controllers/cardController.js';
+import cardController from '../controllers/cardController.mjs';
 
 const router = Router();
 

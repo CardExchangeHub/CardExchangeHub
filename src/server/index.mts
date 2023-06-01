@@ -6,8 +6,8 @@ import express, {
   urlencoded,
 } from 'express';
 
-import cardRoute from './routes/card_route.js';
-import authRoute from './routes/auth_route.js';
+import cardRoute from './routes/card_route.mjs';
+import authRoute from './routes/auth_route.mjs';
 
 const app = express();
 

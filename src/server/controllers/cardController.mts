@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 // import db from '../models/cardExHub';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import db from '../models/cardModel.js';
+import db from '../models/cardModel.mjs';
 
 export default {
   // currently working on. need to add cards to test this.
@@ -31,13 +31,13 @@ export default {
         'SELECT id FROM "public.Users" WHERE id = $1',
         [req.params.id]
       );
-      console.log('cardHolder', cardHolder.rows[0].id)
+      console.log('cardHolder', cardHolder.rows[0].id);
       // check if user isnt found
       if (cardHolder.rowCount === 0) {
-        console.log('user not found')
+        console.log('user not found');
         return null;
       }
-      console.log('pass check if user')
+      console.log('pass check if user');
       // insert card into database
       const newCard = await db.query(
         'INSERT INTO "public.market_postings" (price, condition,seller,"cardId" ) VALUES ($1,$2,$3, $4) RETURNING *',
@@ -49,9 +49,10 @@ export default {
         ]
       );
 
-
       // get all the cards
-      const cardsData = await db.query('SELECT * FROM "public.market_postings"');
+      const cardsData = await db.query(
+        'SELECT * FROM "public.market_postings"'
+      );
       res.locals.cards = cardsData.rows;
       return next();
     } catch (err) {
@@ -82,11 +83,18 @@ export default {
     }
   },
   purchasedCard: async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.params.id)
+    console.log(req.params.id);
     try {
-      if(await (await db.query('SELECT * FROM "public.market_postings" WHERE sold = $1 AND id = $2', [true, req.params.id])).rowCount !== 0){
-        console.log('sold')
-        return next()
+      if (
+        (await (
+          await db.query(
+            'SELECT * FROM "public.market_postings" WHERE sold = $1 AND id = $2',
+            [true, req.params.id]
+          )
+        ).rowCount) !== 0
+      ) {
+        console.log('sold');
+        return next();
       }
       const newPurchase = await db.query(
         'UPDATE "public.market_postings" SET sold = $1, buyer = $2 WHERE id = $3 RETURNING *',
@@ -97,10 +105,11 @@ export default {
     } catch (err) {
       return next({
         log: `Error in purchase middleware: ${err}`,
-      status: 500,
-      message: {
-        e: 'An error occured when purchase a card',
-      },});
+        status: 500,
+        message: {
+          e: 'An error occured when purchase a card',
+        },
+      });
     }
   },
   editCard: async (req: Request, res: Response, next: NextFunction) => {
@@ -123,7 +132,9 @@ export default {
         [req.body.card_price, req.body.card_description, idOfCard]
       );
       // get all cards
-      const cardsData = await db.query('SELECT * FROM "public.market_postings"');
+      const cardsData = await db.query(
+        'SELECT * FROM "public.market_postings"'
+      );
       res.locals.cards = cardsData.rows;
       return next();
     } catch (err) {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import db from '../models/cardModel.js';
+import db from '../models/cardModel.mjs';
 
 export default {
   addUser: async (req: Request, res: Response, next: NextFunction) => {
