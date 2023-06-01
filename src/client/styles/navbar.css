@@ -1,0 +1,10 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    margin: 3.5rem 15rem 0rem;
+    padding:1.5rem;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #fefefe, #d5d5d5);
+    box-shadow:  14px 14px 28px #cecece,
+                 -14px -14px 28px #ffffff;
+}

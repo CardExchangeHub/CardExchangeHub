@@ -1,47 +1,67 @@
-import React, { useEffect, useState } from 'react';
-
-interface Card {
-  id: number;
-  image: string;
-  quality: string;
-  marketPrice: number;
-  sellerPrice: number;
-}
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import CardComponent from '../Card/Card';
+import useCards from '../../hooks/useCards';
+import {
+  selectAllCards,
+  selectStatus,
+  selectCurrentPage,
+  selectHasNextPage,
+  fetchCards,
+  Card,
+  selectError,
+  pageNumberUpdated,
+} from '../../features/CardsList/cardsSlice';
+import { Spinner } from '../Spinner';
 
 const CardsList: React.FC = () => {
-  const [cards, setCards] = useState<Card[]>([]);
+  const dispatch = useAppDispatch();
+  const cards = useAppSelector(selectAllCards);
+  const currentPage = useAppSelector(selectCurrentPage);
+  const cardStatus = useAppSelector(selectStatus);
+  const error = useAppSelector(selectError);
+  const hasNextPage = useAppSelector(selectHasNextPage);
+  // fetch data for cards list
+  useCards();
 
-  useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const response = await fetch('api/cards');
-        const data = await response.json();
-        setCards(data);
-      } catch (error) {
-        console.error('Error fetching cards:', error);
-      }
-    };
+  const intObserver = useRef<IntersectionObserver | null>(null);
 
-    fetchCards();
-  }, []);
+  const lastPostRef = useCallback(
+    (card: HTMLElement | null) => {
+      if (cardStatus === 'loading') return;
+      if (intObserver.current) intObserver.current.disconnect();
 
-  const handleAddToCart = (cardId: number) => {
-    // Add item to cart logic
-    console.log(`card ${cardId} added to cart`);
-  };
+      intObserver.current = new IntersectionObserver((cards) => {
+        if (cards[0].isIntersecting && hasNextPage) {
+          console.log('Near the last card!');
+          dispatch(pageNumberUpdated());
+        }
+      });
+
+      if (card) intObserver.current.observe(card);
+    },
+    [cardStatus, hasNextPage]
+  );
+
+  // Sort posts in reverse chronological order by datetime string
+  //   const orderedPosts = cards.slice();
+  //   // .sort((a: Card, b: Card) => b.dateAdded.localeCompare(a.dateAdded));
+  // } else if (cardStatus === 'failed') {
+  //   content = <div>{error}</div>;
+  // }
 
   return (
-    <>
-      {cards.map((card) => (
-        <div key={card.id}>
-          <img src={card.image} alt="cards" />
-          <p>Quality: {card.quality}</p>
-          <p>Market Price: ${card.marketPrice}</p>
-          <p>Seller Price: ${card.sellerPrice}</p>
-          <button onClick={() => handleAddToCart(card.id)}>Add to Cart</button>
-        </div>
-      ))}
-    </>
+    <div className="flex justify-evenly flex-wrap border-dashed border-2 border-white rounded-[50px] mx-20">
+      {cards.map((card, i) => {
+        if (cards.length === i + 1) {
+          console.log('last card');
+          return <CardComponent key={card.id} card={card} ref={lastPostRef} />;
+        }
+        return <CardComponent key={card.id} card={card} />;
+      })}
+      {cardStatus === 'loading' && <Spinner text="Loading..." />}
+      {cardStatus === 'failed' && <div>{error}</div>}
+    </div>
   );
 };
 
