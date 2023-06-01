@@ -36,7 +36,6 @@ export const postLoginUser = async (
   const { email, password } = newUser;
   try {
     const token = await axios.post('api/auth/login', {
-      name,
       email,
       password,
     });
