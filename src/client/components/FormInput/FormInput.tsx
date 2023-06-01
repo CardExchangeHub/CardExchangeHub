@@ -8,23 +8,23 @@ interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const FormInput: React.FC<FormInputProps> = ({
   name,
-  label,
   placeholder,
   type,
   onChange,
   ...rest
 }) => {
   return (
-    <div>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        onChange={onChange}
-        {...rest}
-      />
-      <label htmlFor={name}>{label}</label>
+    <div className="p-1 bg-white rounded-xl my-2">
+      <div className="">
+        <input
+          id={name}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          onChange={onChange}
+          {...rest}
+        />
+      </div>
     </div>
   );
 };

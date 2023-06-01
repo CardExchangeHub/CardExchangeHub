@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
 
         {/* LOGIC FOR LOGIN/LOGOUT BUTTONS CONNECTED TO REDUX - Jeff */}
         {/* {auth._id ? (
-          <button onClick={handleLogout}>Logout</button>
+          <button className="text-xl text-gray-400 hover:text-white onClick={handleLogout}>Logout</button>
         ) : (
           <Link to="/login">Login</Link>
           <Link to="/register">Register</Link>

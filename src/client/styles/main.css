@@ -5,6 +5,7 @@
 @import url('cardsContainer.css');
 @import url('cart.css');
 @import url('navbar.css');
+@import url('login.css');
 
 body {
     background-color: #e0e0e0;
