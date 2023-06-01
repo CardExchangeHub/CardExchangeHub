@@ -3,6 +3,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import LogIn from '../../components/LogIn/LogIn';
+import Register from '../../components/Register/Register';
 import useDebounce from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectAuth, logoutUser } from '../../features/Auth/authSlice';
@@ -16,6 +17,7 @@ const Navbar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // State for login modal
+  // const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false); // State for sign-up modal
 
   // // custom debounce search hook to handle dynamic search input query
   const debouncedSearch = useDebounce(searchQuery, 500);
@@ -43,6 +45,10 @@ const Navbar: React.FC = () => {
     setIsLoginModalOpen(!isLoginModalOpen); // Toggle the login modal state
   };
 
+  // const handleSignUpClick = () => {
+  //   setIsSignUpModalOpen(!isSignUpModalOpen); // Toggle the sign-up modal state
+  // };
+
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate('/logout');
@@ -67,20 +73,27 @@ const Navbar: React.FC = () => {
         {/* <Link to="login" className="hover:text-gray-300">
           Log In
         </Link> */}
-        <button
+        {/* <button
           className="text-xl text-gray-400 hover:text-white"
           onClick={handleLoginClick} // Toggle the login modal state on click
         >
           Log In
-        </button>
+        </button> */}
 
         {/* LOGIC FOR LOGIN/LOGOUT BUTTONS CONNECTED TO REDUX - Jeff */}
-        {/* {auth._id ? (
-          <button className="text-xl text-gray-400 hover:text-white onClick={handleLogout}>Logout</button>
+        {auth._id ? (
+          <button onClick={handleLogout}>Logout</button>
         ) : (
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        )} */}
+          <div>
+            <button
+              className="text-xl text-gray-400 hover:text-white"
+              onClick={handleLoginClick} // Toggle the login modal state on click
+            >
+              Log In
+            </button>
+            {/* <button onClick={handleSignUpClick}>Sign Up</button>{' '} */}
+          </div>
+        )}
 
         {/* <button className="hover:text-gray-300" onClick={handleCartClick}>
           <svg
