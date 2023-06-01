@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useNavigate, BrowserRouter } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
 import Sellers from './components/Sellers';
 import Cart from './components/Cart/Cart';
@@ -18,18 +18,16 @@ const App = () => {
   //   setIsLoggedIn(isLoggedIn);
   // };
   return (
-    <BrowserRouter>
+    <main className="App">
       <NavBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/sellers" element={<Sellers />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/logout" element={<LogOut />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/sellers" element={<Sellers />} />
+      <Route path="/login" element={<LogIn />} />
+      <Route path="/logout" element={<LogOut />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<Register />} />
+    </main>
   );
 };
 
