@@ -11,7 +11,7 @@ export default {
   getCardsForSale: async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const cardsQuery =
-        'SELECT * FROM public.market_postings WHERE sold = ($1)';
+        'SELECT * FROM "public.market_postings" WHERE sold = ($1)';
       const cardsForSale = await db.query(cardsQuery, [false]);
       res.locals.cards = cardsForSale;
       return next();
@@ -28,7 +28,7 @@ export default {
   addCard: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const cardHolder = await db.query(
-        'SELECT public.Users.id FROM `public.Users` WHERE public.Users.id = $1',
+        'SELECT public.Users.id FROM "public.Users" WHERE public.Users.id = $1',
         [req.params.id]
       );
 

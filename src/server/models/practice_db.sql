@@ -15,7 +15,7 @@ CREATE TABLE "public.market_postings" (
 	"price" FLOAT NOT NULL,
 	"seller" integer NOT NULL,
 	"cardId" integer NOT NULL,
-	"sold" BOOLEAN NOT NULL DEFAULT 'false',
+	"sold" BOOLEAN NOT NULL DEFAULT FALSE,
 	"buyer" integer DEFAULT NULL,
 	CONSTRAINT "market_postings_pk" PRIMARY KEY ("id")
 ) WITH (
