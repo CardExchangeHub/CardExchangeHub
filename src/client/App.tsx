@@ -9,6 +9,7 @@ import LogOut from './components/LogOut/LogOut';
 import NavBar from './global/NavBar/NavBar';
 import './styles/main.css';
 import Cookies from 'js-cookie';
+import Register from './components/Register/Register';
 
 const App = () => {
   // const ssidCookie = Cookies.get('ssid');
@@ -25,7 +26,8 @@ const App = () => {
         <Route path="/sellers" element={<Sellers />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/logout" element={<LogOut />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );

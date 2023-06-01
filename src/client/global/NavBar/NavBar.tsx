@@ -1,11 +1,16 @@
 // export default Navbar;
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import LogIn from '../../components/LogIn/LogIn';
 import useDebounce from '../../hooks/useDebounce';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectAuth, logoutUser } from '../../features/Auth/authSlice';
 
 const Navbar: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const auth = useAppSelector(selectAuth);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,6 +43,11 @@ const Navbar: React.FC = () => {
     setIsLoginModalOpen(!isLoginModalOpen); // Toggle the login modal state
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/logout');
+  };
+
   return (
     <nav className="flex items-center justify-between bg-gray-800 text-white p-4">
       <Link to="/" className="text-2xl font-bold">
@@ -60,6 +70,15 @@ const Navbar: React.FC = () => {
         >
           Log In
         </button>
+
+        {/* LOGIC FOR LOGIN/LOGOUT BUTTONS CONNECTED TO REDUX - Jeff */}
+        {/* {auth._id ? (
+          <button onClick={handleLogout}>Logout</button>
+        ) : (
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
+        )} */}
+
         {/* <button className="hover:text-gray-300" onClick={handleCartClick}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

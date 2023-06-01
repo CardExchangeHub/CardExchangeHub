@@ -1,16 +1,19 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   selectCartItems,
   selectTotalAmount,
   clearCart,
   getTotals,
 } from '../../features/Cart/cartSlice';
+import { selectAuth } from '../../features/Auth/authSlice';
 import CardComponent from '../Card/Card';
 
 const Cart = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const auth = useAppSelector(selectAuth);
   const cartItems = useAppSelector(selectCartItems);
   const totalAmount = useAppSelector(selectTotalAmount);
 
@@ -59,7 +62,17 @@ const Cart = () => {
               <p className="font-light">
                 * Taxes and shipping calculated at checkout
               </p>
-              <button className="checkout-btn bg-red">Check out</button>
+              {auth._id ? (
+                <button className="checkout-btn bg-red">Check out</button>
+              ) : (
+                <button
+                  className="checkout-btn bg-red"
+                  onClick={() => navigate('/login')}
+                >
+                  Login to check out
+                </button>
+              )}
+
               <div className="continue-shopping">
                 <Link to="/">
                   <span className="shop-btn">Continue Shopping</span>
