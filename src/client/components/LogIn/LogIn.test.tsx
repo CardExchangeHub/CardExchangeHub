@@ -1,4 +1,5 @@
-import LogIn, { LoginUser } from './LogIn';
+// import LogIn, { LoginUser } from './LogIn';
+import LogIn from './LogIn';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';

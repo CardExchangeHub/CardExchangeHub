@@ -1,45 +1,79 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/react';
 import Cart from './Cart';
-// import { before } from 'node:test';
-// import 'whatwg-fetch';
+import userEvent from '@testing-library/user-event';
+import { renderWithProviders } from '../../../../utils/test-utils';
 
-// describe('Cart', () => {
-//   beforeEach(() => {
-//     jest.clearAllMocks();
-//   });
+describe('Cart component', () => {
+  it('should display start shopping button and empty cart header when cart is empty', async () => {
+    const checkoutMock = jest.fn();
+    renderWithProviders(<Cart />);
 
-//   test('handle click functionality', async () => {
-//     const mockCards = [
-//       {
-//         id: 1,
-//         image: 'card1.jpg',
-//         quality: 'Excellent',
-//         marketPrice: 100,
-//         sellerPrice: 80,
-//       },
-//     ];
+    //find the checkout button on the screen
+    const startShoppingButton = await screen.findByText(/Start shopping/i);
+    // //simulate button click
+    // userEvent.click(startShoppingButton);
+    const emptyCartHeader = await screen.findByText(
+      /Your cart is currently empty/i
+    );
+    //expect the checkout button to be clicked on once
+    // expect(checkoutMock).toHaveBeenCalledTimes(1);
+    expect(startShoppingButton).toBeInTheDocument();
+    expect(emptyCartHeader).toBeInTheDocument();
+  });
+  it('should display cart items when cart is not empty', async () => {
+    const preloadedState = {
+      cart: {
+        cartItems: [
+          {
+            id: 1,
+            images: {
+              small: 'image',
+              large: 'image',
+            },
+            cartQuantity: 1,
+            quality: 'new',
+            sellerPrice: 10,
+            marketPrice: 10,
+            dateAdded: '5/5/2021',
+          },
+        ],
+        cartTotalAmount: 10,
+        cartTotalQuantity: 1,
+        _persist: {
+          version: -1,
+          rehydrated: true,
+        },
+      },
+    };
+    renderWithProviders(<Cart />, { preloadedState });
 
-//     jest.spyOn(window, 'fetch').mockImplementation(
-//       () =>
-//         Promise.resolve({
-//           json: () => Promise.resolve(mockCards),
-//         }) as Promise<Response>
-//     );
+    const subtotal = await screen.findByText(/Subtotal:/i);
+    screen.debug();
+    expect(subtotal).toBeInTheDocument();
+  });
+});
 
-//     render(<CardsList />);
-
-//     const qualitySummary = await screen.findByText('Quality: Excellent');
-
-//     // Mock the console.log function
-//     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-
-//     // Simulate button click
-//     await userEvent.click(screen.getByText('Add to Cart'));
-
-//     //expect the console log to equal to the correct output string
-//     expect(consoleSpy).toHaveBeenCalledWith('card 1 added to cart');
-//     expect(qualitySummary).toBeInTheDocument();
-//   });
-// });
+//  preloadedState: {
+//         cart: {
+//           _persist: {
+//             version: -1,
+//             rehydrated: true,
+//           },
+//           cartItems: [
+//             {
+//               id: 1,
+//               images: {
+//                 small: 'image',
+//                 large: 'image',
+//               },
+//               cartQuantity: 1,
+//               quality: 'new',
+//               sellerPrice: 10,
+//               marketPrice: 10,
+//               dateAdded: '5/5/2021',
+//             },
+//           ],
+//           cartTotalAmount: 10,
+//           cartTotalQuantity: 1,
+//         },

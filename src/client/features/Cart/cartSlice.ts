@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { CombinedState, createSlice } from '@reduxjs/toolkit';
 import { Card } from '../CardsList/cardsSlice';
 import { RootState } from '../../app/store';
 
