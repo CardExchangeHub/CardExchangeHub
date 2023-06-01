@@ -11,7 +11,7 @@ export default {
   getCardsForSale: async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const cardsQuery =
-        'SELECT * FROM "public.market_postings" WHERE sold = ($1)';
+        'SELECT * FROM public.market_postings WHERE sold = ($1)';
       const cardsForSale = await db.query(cardsQuery, [false]);
       res.locals.cards = cardsForSale;
       return next();
@@ -43,24 +43,10 @@ export default {
         [
           req.body.card_price,
           req.body.card_description,
-          cardHolder,
+          cardHolder.rows[0].id,
           req.body.cardId,
         ]
       );
-
-      // check to see if card is already in the possible cards table
-      const possibleCard = await db.query(
-        'SELECT * FROM public.cards WHERE id = $1',
-        [newCard.rows[0].cardId]
-      );
-
-      // if card isnt in possible cards table, add it
-      if (possibleCard.rowCount === 0) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const possibleCards = await db.query(
-          'INSERT INTO public.cards (id) VALUES ($1) RETURNING *'
-        );
-      }
 
       // get all the cards
       const cardsData = await db.query('SELECT * FROM public.market_postings');
