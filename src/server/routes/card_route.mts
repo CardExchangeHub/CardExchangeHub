@@ -1,6 +1,6 @@
 import { Response, Request, Router } from 'express';
 import cardController from '../controllers/cardController.mjs';
-
+import verifyUser from '../controllers/authController.mjs';
 const router = Router();
 
 // get all cards for sale

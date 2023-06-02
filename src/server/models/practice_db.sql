@@ -17,6 +17,7 @@ CREATE TABLE "public.market_postings" (
 	"cardId" VARCHAR(255) NOT NULL,
 	"sold" BOOLEAN NOT NULL DEFAULT FALSE,
 	"buyer" integer DEFAULT NULL,
+	"date" TIMESTAMP,
 	CONSTRAINT "market_postings_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE

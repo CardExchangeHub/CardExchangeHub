@@ -3,10 +3,11 @@ import db from '../models/cardModel.mjs';
 
 export default {
   //get all cards currently for sale
+  //sort by date
   getCardsForSale: async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const cardsQuery =
-        'SELECT * FROM "public.market_postings" WHERE sold = ($1)';
+        'SELECT * FROM "public.market_postings" WHERE sold = ($1) ORDER BY date DESC ';
       const cardsForSale = await db.query(cardsQuery, [false]);
       res.locals.cards = cardsForSale;
       return next();
