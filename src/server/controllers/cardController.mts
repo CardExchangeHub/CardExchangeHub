@@ -44,18 +44,16 @@ export default {
           'SELECT id FROM "public.Users" WHERE id = $1',
           [req.params.id]
         );
-        //check if user is card holder
-        if (user.id !== cardHolder.rows[0].id) {
-          console.log('user not card holder');
-          return next();
-        }
-        console.log('cardHolder', cardHolder.rows[0].id);
         // check if user isnt found
         if (cardHolder.rowCount === 0) {
           console.log('user not found');
           return null;
         }
-        console.log('pass check if user');
+        //check if user is card holder
+        if (user.id !== cardHolder.rows[0].id) {
+          console.log('user not card holder');
+          return next();
+        }
         // insert card into database
         const newCard = await db.query(
           'INSERT INTO "public.market_postings" (price, condition,seller,"cardId" ) VALUES ($1,$2,$3, $4) RETURNING *',
@@ -100,7 +98,7 @@ export default {
           console.log('user not card holder');
           return next();
         }
-        res.locals.deletedCard = deletedCard.rows[0];
+        res.locals.deletedCardId = deletedCard.rows[0].id;
         return next();
       }
     } catch (err) {
@@ -166,26 +164,24 @@ export default {
           'SELECT * FROM "public.market_postings" WHERE id = $1',
           [idOfCard]
         );
+        // check if card doesnt exist
+        if (cardData.rowCount === 0) {
+          return null;
+        }
         //check if user is card holder
         if (user.id !== cardData.rows[0].id) {
           console.log('user not card holder');
           return next();
         }
-        // check if card doesnt exist
-        if (cardData.rowCount === 0) {
-          return null;
-        }
+
         // if card exists, update card
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const cardUpdateData = await db.query(
           'UPDATE "public.market_postings" SET price = $1, condition = $2 WHERE id = $3',
           [req.body.card_price, req.body.card_description, idOfCard]
         );
-        // get all cards
-        const cardsData = await db.query(
-          'SELECT * FROM "public.market_postings"'
-        );
-        res.locals.cards = cardsData.rows;
+
+        res.locals.cards = cardUpdateData.rows[0];
         return next();
       }
     } catch (err) {

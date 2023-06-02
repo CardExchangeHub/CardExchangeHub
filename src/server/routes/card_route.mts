@@ -28,7 +28,7 @@ router.delete(
   authController.verifyUser,
   cardController.deleteCard,
   (_req: Request, res: Response) => {
-    res.status(200).json(res.locals.deletedCard);
+    res.status(200).json(res.locals.deletedCardId);
   }
 );
 
