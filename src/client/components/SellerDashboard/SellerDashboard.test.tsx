@@ -26,7 +26,7 @@ describe('Sell', () => {
     // Mock the axios.post function to return a mock sell response
     (axios.post as jest.Mock).mockResolvedValueOnce({ data: mockSellResponse });
 
-    const { getByText, getByTestId } = render(<Sell />);
+    const { getByText, getByTestId } = render(<SellerDashboard />);
 
     const searchInput = getByTestId('card-search-input');
     const searchButton = getByText('Search');
