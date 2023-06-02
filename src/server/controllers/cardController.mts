@@ -38,11 +38,17 @@ export default {
           status: 500,
           message: { e: 'user not found' },
         });
+        //need to verify that user is the card holder
       } else {
         const cardHolder = await db.query(
           'SELECT id FROM "public.Users" WHERE id = $1',
           [req.params.id]
         );
+        //check if user is card holder
+        if (user.id !== cardHolder.rows[0].id) {
+          console.log('user not card holder');
+          return next();
+        }
         console.log('cardHolder', cardHolder.rows[0].id);
         // check if user isnt found
         if (cardHolder.rowCount === 0) {
@@ -89,6 +95,11 @@ export default {
           'DELETE FROM "public.market_postings" WHERE id = $1 RETURNING *',
           [req.params.id]
         );
+        //check if user is card holder
+        if (user.id !== deletedCard.rows[0].id) {
+          console.log('user not card holder');
+          return next();
+        }
         res.locals.deletedCard = deletedCard.rows[0];
         return next();
       }
@@ -155,6 +166,11 @@ export default {
           'SELECT * FROM "public.market_postings" WHERE id = $1',
           [idOfCard]
         );
+        //check if user is card holder
+        if (user.id !== cardData.rows[0].id) {
+          console.log('user not card holder');
+          return next();
+        }
         // check if card doesnt exist
         if (cardData.rowCount === 0) {
           return null;
