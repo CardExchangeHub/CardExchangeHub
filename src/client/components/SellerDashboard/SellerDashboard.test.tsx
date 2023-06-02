@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
-import Sell from './Sell';
+import SellerDashboard from './SellerDashboard';
 
 jest.mock('axios');
 

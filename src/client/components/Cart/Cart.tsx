@@ -42,12 +42,6 @@ const Cart = () => {
         </div>
       ) : (
         <div>
-          {/* <div className="titles">
-            <h3 className="product-title">Product</h3>
-            <h3 className="price">Price</h3>
-            <h3 className="quantity">Quantity</h3>
-            <h3 className="total">Total</h3>
-          </div> */}
           <div className="flex justify-evenly flex-wrap border-dashed border-2 border-white rounded-[50px] mx-20 px-4">
             {cartItems.map((card, i) => {
               return <CardComponent key={card.id} card={card} />;

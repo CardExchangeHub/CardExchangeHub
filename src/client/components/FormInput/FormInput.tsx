@@ -1,32 +1,41 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes, forwardRef } from 'react';
 
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
-  placeholder: string;
 }
 
-const FormInput: React.FC<FormInputProps> = ({
-  name,
-  placeholder,
-  type,
-  onChange,
-  ...rest
-}) => {
+const FormInput = forwardRef<HTMLInputElement, FormInputProps>((props, ref) => {
+  const { name, label, placeholder, type, onChange, ...rest } = props;
   return (
     <div className="p-1 bg-white rounded-xl my-2">
       <div className="">
-        <input
-          id={name}
-          name={name}
-          type={type}
-          placeholder={placeholder}
-          onChange={onChange}
-          {...rest}
-        />
+        {ref ? (
+          <input
+            ref={ref}
+            id={name}
+            name={name}
+            type={type}
+            placeholder={placeholder}
+            onChange={onChange}
+            {...rest}
+            required
+          />
+        ) : (
+          <input
+            id={name}
+            name={name}
+            type={type}
+            placeholder={placeholder}
+            onChange={onChange}
+            {...rest}
+            required
+          />
+        )}
+        <label htmlFor={name}>{label}</label>
       </div>
     </div>
   );
-};
+});
 
 export default FormInput;

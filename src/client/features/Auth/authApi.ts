@@ -18,12 +18,21 @@ export const postRegisterUser = async (
 ) => {
   const { name, email, password } = newUser;
   try {
-    const token = await axios.post('api/auth/register', {
-      name,
-      email,
-      password,
-    });
-    return token.data;
+    const response = await axios.post(
+      'api/auth/register',
+      {
+        name,
+        email,
+        password,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
+    return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
@@ -35,12 +44,36 @@ export const postLoginUser = async (
 ) => {
   const { email, password } = newUser;
   try {
-    const token = await axios.post('api/auth/login', {
-      email,
-      password,
-    });
-    return token.data;
+    const response = await axios.post(
+      'api/auth/login',
+      {
+        email,
+        password,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
+    return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    if (error.response.status === 400) {
+      return rejectWithValue('Missing Username or Password');
+    } else if (error.response.status === 401) {
+      return rejectWithValue('Invalid Username or Password');
+    } else {
+      return rejectWithValue('Login failed');
+    }
+  }
+};
+
+export const getVerifyLogin = async (param: null, { rejectWithValue }) => {
+  try {
+    const response = await axios.get('api/auth/verify');
+    return response.data;
+  } catch (error) {
+    rejectWithValue('User not loggged in');
   }
 };

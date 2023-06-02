@@ -12,7 +12,7 @@ interface Price {
   price: number;
 }
 
-const Sell: React.FC = () => {
+const SellerDashboard: React.FC = () => {
   const [cardName, setCardName] = useState('');
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [price, setPrice] = useState(0);
@@ -85,4 +85,4 @@ const Sell: React.FC = () => {
   );
 };
 
-export default Sell;
+export default SellerDashboard;
