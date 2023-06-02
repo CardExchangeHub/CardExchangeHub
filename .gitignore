@@ -1,4 +1,6 @@
 node_modules
 package-lock.json
+Session.vim
+dist/
 src/.DS_Store
 src/client/.DS_Store
