@@ -4,10 +4,11 @@ import { fetchCardsList, postNewCard } from './cardsApi';
 
 export interface Card {
   id: number;
-  images: {
-    large: string;
-    small: string;
-  };
+  // images: {
+  //   large: string;
+  //   small: string;
+  // };
+  image: string;
   quality: string;
   marketPrice: number;
   sellerPrice: number;
