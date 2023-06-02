@@ -5,7 +5,7 @@ const router = Router();
 
 // get all cards for sale
 router.get(
-  '/:page',
+  '/',
   cardController.getCardsForSale,
   (_req: Request, res: Response) => {
     res.status(200).json(res.locals.cards);

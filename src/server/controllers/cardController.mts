@@ -4,17 +4,19 @@ import db from '../models/cardModel.mjs';
 export default {
   //get all cards currently for sale
   //sort by date
-  //only get [req.params.page *10, req.params.page + 10]
+  //only get [req.query._page *10, req.query.limig
   getCardsForSale: async (req: Request, res: Response, next: NextFunction) => {
+    const { _page, limit } = req.query;
     try {
-      let cardStart = Number(req.params.page) * 10;
-      let cardEnd = cardStart + 10;
+      //subtract 1 from page number so that page 1 starts at index 0. Else cardStart would be 10
+      //and we wouldn't receive cards 0-10.
+      let cardStart = (Number(_page) - 1) * 10;
       const cardsQuery =
         'SELECT * FROM "public.market_postings" WHERE sold = ($1) ORDER BY date DESC OFFSET $2 LIMIT $3';
       const cardsForSale = await db.query(cardsQuery, [
         false,
         cardStart,
-        cardEnd,
+        limit,
       ]);
 
       res.locals.cards = cardsForSale;
@@ -31,6 +33,7 @@ export default {
   },
   addCard: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      //res.locals?
       const user = res.locals.user;
       if (!user) {
         return next({
