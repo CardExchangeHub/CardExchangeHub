@@ -9,8 +9,7 @@ import {
 } from '../../features/Cart/cartSlice';
 import { selectAuth } from '../../features/Auth/authSlice';
 import CardComponent from '../Card/Card';
-import CheckoutForm from './CheckoutForm.jsx';
-import { Elements } from '@stripe/react-stripe-js';
+// import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
@@ -82,9 +81,6 @@ const Cart = () => {
               </div>
             </div>
           </div>
-          <Elements stripe={stripePromise}>
-            <CheckoutForm />
-          </Elements>
         </div>
       )}
     </div>
