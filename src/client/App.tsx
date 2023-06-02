@@ -14,10 +14,6 @@ import './styles/main.css';
 import Cookies from 'js-cookie';
 import Register from './components/Register/Register';
 import Layout from './components/Layout/Layout';
-// import CheckoutForm from './components/Cart/CheckoutForm';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const App = () => {
   return (
@@ -41,9 +37,6 @@ const App = () => {
         {/* catch all route */}
         <Route path="*" element={<NotFound />} />
         {/* </Route> */}
-        {/* <Elements stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>{' '} */}
       </Routes>
     </main>
   );

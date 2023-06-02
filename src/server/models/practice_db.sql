@@ -28,4 +28,4 @@ CREATE TABLE "public.market_postings" (
 
 ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk0" FOREIGN KEY ("seller") REFERENCES "public.Users"("id");
 ALTER TABLE "public.market_postings" ADD CONSTRAINT "market_postings_fk2" FOREIGN KEY ("buyer") REFERENCES "public.Users"("id");
-
+ALTER TABLE "public.Users" ADD google_id varchar(255);

@@ -9,10 +9,6 @@ import {
 } from '../../features/Cart/cartSlice';
 import { selectAuth } from '../../features/Auth/authSlice';
 import CardComponent from '../Card/Card';
-// import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
   const navigate = useNavigate();
