@@ -5,10 +5,7 @@ describe('cards reducer', () => {
     cardsList: [
       {
         id: 3,
-        images: {
-          small: 'small',
-          large: 'large',
-        },
+        image: 'string',
         cartQuantity: 1,
         quality: 'good',
         marketPrice: 5,
@@ -16,6 +13,8 @@ describe('cards reducer', () => {
         dateAdded: '5/5/2021',
       },
     ],
+    sellerCardsList: [],
+    cardsListBySearch: [],
     page: 1,
     hasNextPage: false,
     status: 'idle',
@@ -24,6 +23,8 @@ describe('cards reducer', () => {
   it('should handle initial cards state', () => {
     expect(cardsReducer(undefined, { type: 'unknown' })).toEqual({
       cardsList: [],
+      sellerCardsList: [],
+      cardsListBySearch: [],
       page: 1,
       hasNextPage: true,
       status: 'idle',

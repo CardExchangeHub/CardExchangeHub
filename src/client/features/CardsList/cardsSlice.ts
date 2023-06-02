@@ -1,13 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { fetchCardsList, postNewCard } from './cardsApi';
+import { fetchCardsList, postNewCard, fetchCardFromPokeApi } from './cardsApi';
 
 export interface Card {
   id: number;
-  images: {
-    large: string;
-    small: string;
-  };
+  image: string;
   quality: string;
   marketPrice: number;
   sellerPrice: number;
@@ -17,6 +14,8 @@ export interface Card {
 
 export interface CardsState {
   cardsList: Card[];
+  sellerCardsList: Card[];
+  cardsListBySearch: Card[];
   page: number;
   hasNextPage: boolean;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -25,6 +24,8 @@ export interface CardsState {
 
 const initialState: CardsState = {
   cardsList: [],
+  sellerCardsList: [],
+  cardsListBySearch: [],
   page: 1,
   hasNextPage: true,
   status: 'idle',
@@ -32,7 +33,10 @@ const initialState: CardsState = {
 };
 
 export const fetchCards = createAsyncThunk('cards/fetchCards', fetchCardsList);
-
+export const fetchCardBySearch = createAsyncThunk(
+  'cards/fetchCardBySearch',
+  fetchCardFromPokeApi
+);
 export const addNewCard = createAsyncThunk('cards/addNewCard', postNewCard);
 
 export const cardsListSlice = createSlice({
@@ -57,8 +61,16 @@ export const cardsListSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(addNewCard.fulfilled, (state, action) => {
-        state.cardsList.push(action.payload);
+      .addCase(fetchCardBySearch.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchCardBySearch.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.cardsListBySearch = action.payload;
+      })
+      .addCase(fetchCardBySearch.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });

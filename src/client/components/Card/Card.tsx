@@ -13,7 +13,7 @@ interface CardProps {
 }
 
 const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
-  const { id, images, quality, marketPrice, sellerPrice, cartQuantity } = card;
+  const { id, image, quality, marketPrice, sellerPrice, cartQuantity } = card;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
 
   const cardBody = (
     <div className="cards-container">
-      <img className="w-60 rounded-2xl" src={images.small} alt="cards" />
+      <img className="w-60 rounded-2xl" src={image} alt="cards" />
       <p className="m-2 font-light">Quality: {quality}</p>
       <p className="m-2 font-light">Market Price: ${marketPrice}</p>
       <p className="m-2 font-light">Seller Price: ${sellerPrice}</p>

@@ -8,13 +8,13 @@
 @import url('login.css');
 
 body {
-    background-color: #e0e0e0;
-    font-family: 'Nunito', sans-serif;
+  background-color: #e0e0e0;
+  font-family: 'Nunito', sans-serif;
 }
 
-.App{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
