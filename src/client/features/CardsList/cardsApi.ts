@@ -20,6 +20,14 @@ export const fetchCardsList = async (
   }
 };
 
+// UPDATE THIS TO REFLECT THE TCG API - https://pokemontcg.io/
+// We will get data back, display it as we do in cards list, then on click it will populate the 
+// form within the seller dashboard
+export const fetchCardFromPokeApi = async (pokemonName: string) => {
+  const response = await pokemon.card.find(pokemonName);
+  return response;
+};
+
 export const postNewCard = async (newCard: Card) => {
 
   const response = await axios.post(`/card/${userId}`, newCard);
