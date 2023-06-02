@@ -1,5 +1,6 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import NavBar from '../../global/NavBar/NavBar';
 import CardsList from '../CardsList/CardsList';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {

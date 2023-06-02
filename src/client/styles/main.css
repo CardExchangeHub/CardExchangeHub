@@ -5,8 +5,16 @@
 @import url('cardsContainer.css');
 @import url('cart.css');
 @import url('navbar.css');
+@import url('login.css');
 
 body {
     background-color: #e0e0e0;
     font-family: 'Nunito', sans-serif;
+}
+
+#root{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

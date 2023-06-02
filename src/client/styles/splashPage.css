@@ -1,6 +1,6 @@
 .splash-container {
-    width: 100%;
-    height: 90vh;
+    width: 100rem;
+    height: 50rem;
     display: flex;
     flex-direction: column;
     align-items :center;
@@ -34,7 +34,7 @@
 }
 
 .img-box:nth-child(3) {
-    background:url(https://product-images.tcgplayer.com/fit-in/874x874/86738.jpg);
+    background:url(https://product-images.tcgplayer.com/fit-in/874x874/84917.jpg);
     background-size: cover;
     background-position: center;
 }

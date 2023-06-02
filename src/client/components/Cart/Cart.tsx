@@ -43,7 +43,16 @@ const Cart = () => {
             })}
           </div>
           <div className="flex flex-col justfiy-center items-center">
-            <button className="checkout-btn bg-red">Check out</button>
+            {auth._id ? (
+              <button className="checkout-btn bg-red">Check out</button>
+            ) : (
+              <button
+                className="checkout-btn"
+                onClick={() => navigate('/login')}
+              >
+                Login to check out
+              </button>
+            )}
             <div className="flex flex-col justfiy-center items-center  ">
               <div className="">
                 <span className="font-extrabold text-xl">Subtotal: </span>
@@ -54,16 +63,6 @@ const Cart = () => {
               <p className="font-light">
                 * Taxes and shipping calculated at checkout
               </p>
-              {auth._id ? (
-                <button className="checkout-btn bg-red">Check out</button>
-              ) : (
-                <button
-                  className="checkout-btn bg-red"
-                  onClick={() => navigate('/login')}
-                >
-                  Login to check out
-                </button>
-              )}
 
               <button
                 className="clear-btn"
