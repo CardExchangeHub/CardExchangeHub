@@ -1,38 +1,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { postRegisterUser, postLoginUser } from './authApi';
-import jwtDecode from 'jwt-decode';
+import { postRegisterUser, postLoginUser, getVerifyLogin } from './authApi';
 
 export interface AuthState {
-  token: string;
-  user: string;
-  name: string;
-  email: string;
-  _id: string;
+  token: string | null;
+  userName: string | null;
+  email: string | null;
+  _id: string | null;
   registerStatus: 'idle' | 'pending' | 'succeeded' | 'failed';
   registerError: null | string | undefined;
   loginStatus: 'idle' | 'pending' | 'succeeded' | 'failed';
   loginError: null | string | undefined;
   userLoaded: boolean;
+  loginModalOpen: boolean;
 }
 
 export interface User {
-  name: string;
+  userName: string;
   email: string;
   _id: string;
 }
 
 const initialState: AuthState = {
-  token: '',
-  user: '',
-  name: '',
-  email: '',
-  _id: '',
+  token: null,
+  userName: null,
+  email: null,
+  _id: null,
   registerStatus: 'idle',
   registerError: null,
   loginStatus: 'idle',
   loginError: null,
   userLoaded: false,
+  loginModalOpen: false,
 };
 
 export const registerUser = createAsyncThunk(
@@ -42,35 +41,39 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk('auth/loginUser', postLoginUser);
 
+export const verifyLogin = createAsyncThunk('auth/veryifyUser', getVerifyLogin);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loadUser: (state) => {
-      const token = state.token;
+    // loadUser: (state) => {
+    //   const token = state.token;
 
-      if (token) {
-        const user: User = jwtDecode(token);
-        const { name, email, _id } = user;
+    //   if (token) {
+    //     const user: User = jwtDecode(token);
+    //     const { userName, email, _id } = user;
 
-        state.token = token;
-        state.name = name;
-        state.email = email;
-        state._id = _id;
-        state.userLoaded = true;
-      }
-    },
-    logoutUser: (state) => {
-      state.token = '';
-      state.user = '';
-      state.name = '';
-      state.email = '';
-      state._id = '';
-      state.registerStatus = 'idle';
-      state.registerError = null;
+    //     state.token = token;
+    //     state.userName = userName;
+    //     state.email = email;
+    //     state._id = _id;
+    //     state.userLoaded = true;
+    //   }
+    // },
+    resetLoginState: (state) => {
       state.loginStatus = 'idle';
       state.loginError = null;
-      state.userLoaded = false;
+    },
+    logoutUser: (state) => {
+      state = initialState;
+    },
+    toggleAuthModal: (state) => {
+      if (state.loginModalOpen) {
+        state.loginStatus = 'idle';
+        state.loginError = null;
+      }
+      state.loginModalOpen = !state.loginModalOpen;
     },
   },
   extraReducers(builder) {
@@ -80,11 +83,11 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         if (action.payload.token) {
-          const user: User = jwtDecode(action.payload.token);
-          const { name, email, _id } = user;
+          const user: User = action.payload;
+          const { userName, email, _id } = user;
           state.registerStatus = 'succeeded';
           state.token = action.payload;
-          state.name = name;
+          state.userName = userName;
           state.email = email;
           state._id = _id;
         }
@@ -94,28 +97,51 @@ const authSlice = createSlice({
         state.registerError = action.error.message;
       })
       .addCase(loginUser.pending, (state, action) => {
-        console.log('loginUser pending');
         state.loginStatus = 'pending';
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         if (action.payload.token) {
-          const user: User = jwtDecode(action.payload.token);
-          const { name, email, _id } = user;
+          const user: User = action.payload;
+          const { userName, email, _id } = user;
           state.loginStatus = 'succeeded';
           state.token = action.payload;
-          state.name = name;
+          state.userName = userName;
           state.email = email;
           state._id = _id;
         }
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginStatus = 'failed';
-        state.loginError = action.error.message;
+        if (typeof action.payload === 'string') {
+          state.loginError = action.payload;
+        }
+      })
+      .addCase(verifyLogin.pending, (state, action) => {
+        state.loginStatus = 'pending';
+      })
+      .addCase(verifyLogin.fulfilled, (state, action) => {
+        if (action.payload.token) {
+          const user: User = action.payload;
+          const { userName, email, _id } = user;
+          state.loginStatus = 'succeeded';
+          state.token = action.payload;
+          state.userName = userName;
+          state.email = email;
+          state._id = _id;
+        }
+      })
+      .addCase(verifyLogin.rejected, (state, action) => {
+        state.loginStatus = 'failed';
+        if (typeof action.payload === 'string') {
+          state.loginError = action.payload;
+        }
       });
   },
 });
 
 export const selectAuth = (state: RootState) => state.auth;
-export const { loadUser, logoutUser } = authSlice.actions;
+export const selectAuthModal = (state: RootState) => state.auth.loginModalOpen;
+
+export const { logoutUser, toggleAuthModal } = authSlice.actions;
 
 export default authSlice.reducer;
