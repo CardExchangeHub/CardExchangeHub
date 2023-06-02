@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import FormInput from '../FormInput/FormInput';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { loginUser, selectAuth } from '../../features/Auth/authSlice';
+import {
+  selectAuth,
+  selectAuthModal,
+  toggleAuthModal,
+  loginUser,
+} from '../../features/Auth/authSlice';
 import Register from '../Register/Register';
 
 export interface UserInfo {
@@ -10,35 +15,15 @@ export interface UserInfo {
   password: string;
 }
 
-// // This is now handled by redux - Jeff
-// export function LoginUser(
-//   credentials: UserInfo,
-//   updateLoginStatus: (status: boolean) => void
-// ) {
-//   return fetch('/user/login', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(credentials),
-//   })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       if (data.message === 'user authenticated') {
-//         updateLoginStatus(true);
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     });
-// }
-
 const LogIn: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const auth = useAppSelector(selectAuth);
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(true);
+  const from = location.state?.from?.pathname || '/';
+  const userRef = useRef<HTMLInputElement>(null);
+
+  const modalState = useAppSelector(selectAuthModal);
   const [showSignUp, setShowSignUp] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
@@ -46,9 +31,23 @@ const LogIn: React.FC = () => {
     password: '',
   });
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  // set focus on username input field
+  useEffect(() => {
+    userRef?.current?.focus();
+  }, []);
+
+  // Maybe a better way to handle this? - Jeff
+  useEffect(() => {
+    if (auth._id) {
+      setUserInfo({
+        email: '',
+        password: '',
+      });
+
+      navigate(from, { replace: true });
+    }
+  }, [auth]);
+
   const handleRegister = () => {
     setShowSignUp(true); // Show the "Sign Up" component after form submission
   };
@@ -60,44 +59,51 @@ const LogIn: React.FC = () => {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
-  console.log('userInfo', userInfo);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     dispatch(loginUser(userInfo));
   };
-  if (!isOpen) {
-    return null; // Return null if the modal is closed
+
+  // possibly refactor to add conditional rendering in the return statement
+  if (!modalState) {
+    return null;
   }
+
   return (
     <div>
       {showSignUp ? (
         <Register />
       ) : (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="relative bg-white rounded-lg p-8">
-            <form onSubmit={handleSubmit}>
-              <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
-                onClick={handleClose}
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-20">
+          <div className="login">
+            <button
+              // className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              className="absolute p-0.5 top-2 right-2 border-2 border-white rounded-[100px] text-red-500 hover:text-white hover:bg-red-500 focus:outline-none"
+              onClick={() => dispatch(toggleAuthModal())}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="h-5 w-5"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-              <h2 className="text-lg mb-4 text-gray-800">Log In With Email</h2>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <form
+              className="flex flex-col justify-center items-center"
+              onSubmit={handleSubmit}
+            >
+              <h2 className="text-2xl mb-4 text-white">Log In</h2>
               <FormInput
+                ref={userRef}
                 label="Email"
                 value={userInfo.email}
                 onChange={handleChange}
@@ -113,21 +119,22 @@ const LogIn: React.FC = () => {
                 name="password"
                 type="password"
               />
-              <button
-                type="submit"
-                className="bg-blue-500 text-white rounded-md px-4 py-2 mt-4 hover:bg-blue-600"
-              >
+              {auth.loginStatus === 'failed' ? (
+                <p className="text-red-500 font-bold">{auth.loginError}</p>
+              ) : null}
+              <button type="submit" className="add-cart-btn mt-3">
                 {auth.loginStatus === 'pending' ? 'Submitting...' : 'Submit'}
               </button>
-              <div className="mt-4">
-                <Link to="register" className="mb-2 text-black hover:underline">
+              <div className="mt-4 text-white">
+                <Link to="register" className="mb-2 hover:underline">
                   Forgot password?
                 </Link>
                 <div className="mt-2">
-                  <button onClick={handleRegister}>Create an account </button>
+                  <button className="hover:underline" onClick={handleRegister}>
+                    Create an account{' '}
+                  </button>
                 </div>
               </div>
-              {auth.loginStatus === 'failed' ? <p>{auth.loginError}</p> : null}
             </form>
           </div>
         </div>

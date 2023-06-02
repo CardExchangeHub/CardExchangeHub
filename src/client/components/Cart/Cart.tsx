@@ -37,19 +37,22 @@ const Cart = () => {
         </div>
       ) : (
         <div>
-          {/* <div className="titles">
-            <h3 className="product-title">Product</h3>
-            <h3 className="price">Price</h3>
-            <h3 className="quantity">Quantity</h3>
-            <h3 className="total">Total</h3>
-          </div> */}
           <div className="flex justify-evenly flex-wrap border-dashed border-2 border-white rounded-[50px] mx-20 px-4">
             {cartItems.map((card, i) => {
               return <CardComponent key={card.id} card={card} />;
             })}
           </div>
           <div className="flex flex-col justfiy-center items-center">
-            <button className="checkout-btn bg-red">Check out</button>
+            {auth._id ? (
+              <button className="checkout-btn bg-red">Check out</button>
+            ) : (
+              <button
+                className="checkout-btn"
+                onClick={() => navigate('/login')}
+              >
+                Login to check out
+              </button>
+            )}
             <div className="flex flex-col justfiy-center items-center  ">
               <div className="">
                 <span className="font-extrabold text-xl">Subtotal: </span>
@@ -60,16 +63,6 @@ const Cart = () => {
               <p className="font-light">
                 * Taxes and shipping calculated at checkout
               </p>
-              {auth._id ? (
-                <button className="checkout-btn bg-red">Check out</button>
-              ) : (
-                <button
-                  className="checkout-btn bg-red"
-                  onClick={() => navigate('/login')}
-                >
-                  Login to check out
-                </button>
-              )}
 
               <button
                 className="clear-btn"
