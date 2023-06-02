@@ -1,11 +1,11 @@
 import { Response, Request, Router } from 'express';
 import cardController from '../controllers/cardController.mjs';
-import verifyUser from '../controllers/authController.mjs';
+import authController from '../controllers/authController.mjs';
 const router = Router();
 
 // get all cards for sale
 router.get(
-  '/',
+  '/:page',
   cardController.getCardsForSale,
   (_req: Request, res: Response) => {
     res.status(200).json(res.locals.cards);
@@ -13,13 +13,19 @@ router.get(
 );
 
 // add card to market
-router.post('/:id', cardController.addCard, (_req: Request, res: Response) => {
-  res.status(200).json(res.locals.newCard);
-});
+router.post(
+  '/:id',
+  authController.verifyUser,
+  cardController.addCard,
+  (_req: Request, res: Response) => {
+    res.status(200).json(res.locals.newCard);
+  }
+);
 
 // delete card from market
 router.delete(
   '/:id',
+  authController.verifyUser,
   cardController.deleteCard,
   (_req: Request, res: Response) => {
     res.status(200).json(res.locals.deletedCard);
@@ -29,6 +35,7 @@ router.delete(
 // mark card as 'purchased' by setting value of 'sold' column to true
 router.put(
   '/:id/purchase',
+  authController.verifyUser,
   cardController.purchasedCard,
   (_req: Request, res: Response) => {
     res.status(200).json(res.locals.newPurchase || 'already sold');
@@ -36,8 +43,13 @@ router.put(
 );
 
 // edit card
-router.put('/:id', cardController.editCard, (_req: Request, res: Response) => {
-  res.status(200).json(res.locals.cards);
-});
+router.put(
+  '/:id',
+  authController.verifyUser,
+  cardController.editCard,
+  (_req: Request, res: Response) => {
+    res.status(200).json(res.locals.cards);
+  }
+);
 
 export default router;
