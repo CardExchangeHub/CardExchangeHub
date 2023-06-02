@@ -1,13 +1,8 @@
-// eslint-disable-next-line import/no-import-module-exports
 import { Request, Response, NextFunction } from 'express';
-
-// import db from '../models/cardExHub';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import db from '../models/cardModel.mjs';
 
 export default {
-  // currently working on. need to add cards to test this.
+  //get all cards currently for sale
   getCardsForSale: async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const cardsQuery =
@@ -49,11 +44,7 @@ export default {
         ]
       );
 
-      // get all the cards
-      const cardsData = await db.query(
-        'SELECT * FROM "public.market_postings"'
-      );
-      res.locals.cards = cardsData.rows;
+      res.locals.newCard = newCard.rows[0];
       return next();
     } catch (err) {
       return next({
@@ -68,9 +59,11 @@ export default {
 
   deleteCard: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await db.query('DELETE FROM "public.market_postings" WHERE id = $1', [
-        req.params.id,
-      ]);
+      const deletedCard = await db.query(
+        'DELETE FROM "public.market_postings" WHERE id = $1 RETURNING *',
+        [req.params.id]
+      );
+      res.locals.deletedCard = deletedCard.rows[0];
       return next();
     } catch (err) {
       return next({
@@ -83,17 +76,14 @@ export default {
     }
   },
   purchasedCard: async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.params.id);
     try {
-      if (
-        (await (
-          await db.query(
-            'SELECT * FROM "public.market_postings" WHERE sold = $1 AND id = $2',
-            [true, req.params.id]
-          )
-        ).rowCount) !== 0
-      ) {
-        console.log('sold');
+      const card = await db.query(
+        'SELECT * FROM "public.market_postings" WHERE sold = $1 AND id = $2',
+        [true, req.params.id]
+      );
+
+      if (card.rows.length === 0) {
+        console.log('card already sold');
         return next();
       }
       const newPurchase = await db.query(
