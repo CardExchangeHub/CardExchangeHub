@@ -16,7 +16,7 @@ const initialState: Cart = {
 
 const removeItem = (state: Cart, action: any): CardForSale[] => {
   const updatedCartItems = state.cartItems.filter(
-    (cartItem) => cartItem.id !== action.payload.id
+    (cartItem) => cartItem.cardId !== action.payload.cardId
   );
   return updatedCartItems;
 };
@@ -27,7 +27,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.cardId === action.payload.id
       );
       if (itemIndex >= 0) {
         state.cartItems[itemIndex].cartQuantity++;
@@ -41,7 +41,7 @@ const cartSlice = createSlice({
     },
     decreaseCart: (state, action) => {
       const itemIndex = state.cartItems.findIndex(
-        (cartItem) => cartItem.id === action.payload.id
+        (cartItem) => cartItem.cardId === action.payload.id
       );
       if (state.cartItems[itemIndex].cartQuantity > 1) {
         state.cartItems[itemIndex].cartQuantity--;

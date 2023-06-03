@@ -10,7 +10,7 @@ import {
 } from './cardsApi';
 
 export interface CardFromSearch {
-  id: string;
+  cardId: string;
   image: string;
   quality?: string;
   marketPrice: string | number | null;
@@ -20,7 +20,7 @@ export interface CardFromSearch {
 }
 
 export interface CardForSale {
-  id: string;
+  cardId: string;
   image: string;
   quality: string;
   marketPrice: string | number | null;
@@ -47,7 +47,7 @@ const initialState: CardsState = {
   sellerCardsList: [],
   cardsListBySearch: [],
   cardToSell: {
-    id: '',
+    cardId: '',
     image: '',
     marketPrice: '',
   },
@@ -102,7 +102,11 @@ export const cardsListSlice = createSlice({
       state.cardsListBySearch = [];
     },
     setCardToSell: (state, action) => {
-      state.cardToSell = action.payload;
+      state.cardToSell = {
+        cardId: action.payload.id,
+        image: action.payload.image,
+        marketPrice: action.payload.marketPrice,
+      };
       state.cardFormModalView = true;
     },
   },
@@ -113,7 +117,21 @@ export const cardsListSlice = createSlice({
       })
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.cardsList = state.cardsList.concat(action.payload);
+        if (action.payload.length) {
+          const data = action.payload.map((card) => {
+            const num = Math.random() * 500;
+            return {
+              cardId: card.cardId,
+              image: card.image,
+              quality: card.condition,
+              sellerPrice: card.price,
+              marketPrice: parseInt(num.toString()),
+              dateAdded: card.date,
+            };
+          });
+          // state.cardsList = state.cardsList.concat(action.payload);
+          state.cardsList = state.cardsList.concat(data);
+        }
         state.hasNextPage = Boolean(action.payload.length);
       })
       .addCase(fetchCards.rejected, (state, action) => {
@@ -172,7 +190,7 @@ export const cardsListSlice = createSlice({
       .addCase(updateSellerCard.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.sellerCardsList = state.sellerCardsList.map((card) => {
-          if (card.id === action.payload.id) {
+          if (card.cardId === action.payload.id) {
             return action.payload;
           }
           return card;
@@ -188,7 +206,7 @@ export const cardsListSlice = createSlice({
       .addCase(deleteSellerCard.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.sellerCardsList = state.sellerCardsList.filter(
-          (card) => card.id !== action.payload.id
+          (card) => card.cardId !== action.payload.id
         );
       })
       .addCase(deleteSellerCard.rejected, (state, action) => {

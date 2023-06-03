@@ -116,7 +116,7 @@ const SellerDashboard: React.FC = () => {
       {(searchModalView && (
         <div className="flex inset-0 flex-wrap justify-evenly z-50 bg-opacity-20">
           {selectedCards.map((card, i) => {
-            return <CardComponent key={card.id} card={card} />;
+            return <CardComponent key={card.cardId} card={card} />;
           })}
           {renderLoadingState()}
           {cardStatus === 'failed' && (
@@ -130,7 +130,7 @@ const SellerDashboard: React.FC = () => {
           <div className="flex flex-col justify-center items-center">
             <div className="flex inset-0 flex-wrap justify-evenly z-50 bg-opacity-20">
               {sellerCards.map((card, i) => {
-                return <CardComponent key={card.id} card={card} />;
+                return <CardComponent key={card.cardId} card={card} />;
               })}
               {renderLoadingState()}
               {/* {cardStatus === 'failed' && (

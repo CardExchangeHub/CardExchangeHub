@@ -39,7 +39,7 @@ const Cart = () => {
         <div>
           <div className="flex justify-evenly flex-wrap border-dashed border-2 border-white rounded-[50px] mx-20 px-4">
             {cartItems.map((card, i) => {
-              return <CardComponent key={card.id} card={card} />;
+              return <CardComponent key={card.cardId} card={card} />;
             })}
           </div>
           <div className="flex flex-col justfiy-center items-center">

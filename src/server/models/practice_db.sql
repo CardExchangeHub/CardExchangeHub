@@ -7,22 +7,25 @@ CREATE TABLE "public.Users" (
   OIDS=FALSE
 );
 
-
+CREATE TYPE quality AS  ENUM ('Mint', 'Excellent',"Good", 'Played')
 
 CREATE TABLE "public.market_postings" (
 	"id" serial NOT NULL,
-	"condition" VARCHAR(255) NOT NULL,
+	"condition" quality,
 	"price" FLOAT NOT NULL,
 	"seller" integer NOT NULL,
 	"cardId" VARCHAR(255) NOT NULL,
 	"sold" BOOLEAN NOT NULL DEFAULT FALSE,
 	"buyer" integer DEFAULT NULL,
+	"date" TIMESTAMP,
+	"image" VARCHAR(255) NOT NULL,
 	CONSTRAINT "market_postings_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
-
-
+-- req.body.images.large,
+-- req.body.images.small,
+-- req.body.cartQuantity,
 
 
 

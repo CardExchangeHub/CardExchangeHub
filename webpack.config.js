@@ -23,6 +23,10 @@ module.exports = {
         target: 'http://localhost:3000',
         changeOrigin: true,
       },
+      '/card': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
     },
   },
   module: {

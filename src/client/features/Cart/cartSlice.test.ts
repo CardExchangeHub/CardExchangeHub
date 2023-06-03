@@ -17,7 +17,7 @@ describe('cart reducer', () => {
   };
 
   const cartItem: CardForSale = {
-    id: '3',
+    cardId: '3',
     image: '',
     cartQuantity: 1,
     quality: 'good',

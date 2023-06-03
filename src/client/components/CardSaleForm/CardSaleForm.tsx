@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { selectCardToSell } from '../../features/CardsList/cardsSlice';
 import { selectAuth } from '../../features/Auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { sellCard } from '../../features/CardsList/cardsSlice';
-import e from 'express';
+
 const CardSaleForm = () => {
-  const { id, image, marketPrice } = useAppSelector(selectCardToSell);
+  const { cardId, image, marketPrice } = useAppSelector(selectCardToSell);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const userId = useAppSelector(selectAuth)._id;
   const [quantity, setQuantity] = useState(1);
@@ -18,9 +20,17 @@ const CardSaleForm = () => {
       dispatch(
         sellCard({
           userId,
-          newCard: { id, image, marketPrice, quantity, quality, sellerPrice },
+          newCard: {
+            cardId,
+            image,
+            marketPrice,
+            quantity,
+            quality,
+            sellerPrice,
+          },
         })
       );
+      navigate('/');
     }
   };
 
@@ -31,7 +41,7 @@ const CardSaleForm = () => {
         className="flex flex-col justify-center items-center"
         onSubmit={(e) => handleSale(e)}
       >
-        <p className="text-lg opacity-0">Card Id: {id}</p>
+        <p className="text-lg opacity-0">Card Id: {cardId}</p>
         <p className="text-lg opacity-50">
           Market Price: ${marketPrice ? marketPrice : 'Not Available'}
         </p>
