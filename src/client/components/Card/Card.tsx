@@ -38,10 +38,10 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
   const cardBody = (
     <div className="cards-container">
       <img className="w-60 rounded-2xl" src={image} alt="cards" />
-      <p className="m-2 font-light">Quality: {quality}</p>
+      {/* <p className="m-2 font-light">Quality: {quality}</p> */}
       <p className="m-2 font-light">
-        Market Price:
-        {(marketPrice !== null && `$${marketPrice}`) || 'Not Available'}
+        Market Price:{' '}
+        {(marketPrice !== null && `  $${marketPrice}`) || 'Not Available'}
       </p>
       {sellerPrice && (
         <p className="m-2 font-light">Seller Price: ${sellerPrice}</p>

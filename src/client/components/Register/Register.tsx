@@ -69,7 +69,7 @@ const Register = () => {
                 <span className="pl-3">Sign up with Google</span>
               </div>
               <FormInput
-                label="Name"
+                label=""
                 name="name"
                 onChange={handleChange}
                 type="text"
@@ -77,7 +77,7 @@ const Register = () => {
                 value={user.name}
               />
               <FormInput
-                label="Email"
+                label=""
                 value={user.email}
                 onChange={handleChange}
                 placeholder="email@email.com"
@@ -85,7 +85,7 @@ const Register = () => {
                 type="text"
               />
               <FormInput
-                label="Password"
+                label=""
                 value={user.password}
                 onChange={handleChange}
                 placeholder="********"
