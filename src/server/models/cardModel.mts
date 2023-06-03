@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import pg from 'pg';
-
 const { Pool } = pg;
+// import { Pool } from 'pg';
 
 
 const PG_URI = 'postgres://xxxnxtap:UTgcZo9f1658YnvDpHpYDhY0MvC4gWbA@rajje.db.elephantsql.com/xxxnxtap'
@@ -16,3 +16,10 @@ const pool = new Pool({
 // which is a function that returns the invocation of pool.query() after logging the query
 // This will be required in the controllers to be the access point to the database
 export default pool;
+// module.exports = {
+//   query: (text, params, callback) => {
+//     console.log('executed query', text);
+//     return pool.query(text, params, callback);
+//   }
+// };
+  
