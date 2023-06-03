@@ -11,7 +11,6 @@ import SellerDashboard from './components/SellerDashboard/SellerDashboard';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import PersistLogin from './components/PersistLogin/PersistLogin';
 import './styles/main.css';
-import Cookies from 'js-cookie';
 import Register from './components/Register/Register';
 import Layout from './components/Layout/Layout';
 
@@ -29,14 +28,14 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           {/* private routes */}
           {/* <Route element={<PersistLogin />}> */}
-          {/* <Route element={<RequireAuth />}> */}
-          <Route path="/dashboard" element={<SellerDashboard />} />
-          {/* will also pass checkout route here */}
+          <Route element={<RequireAuth />}>
+            <Route path="/dashboard" element={<SellerDashboard />} />
+            {/* will also pass checkout route here */}
+          </Route>
+          {/* </Route> */}
+          {/* catch all route */}
+          <Route path="*" element={<NotFound />} />
         </Route>
-        {/* </Route> */}
-        {/* catch all route */}
-        <Route path="*" element={<NotFound />} />
-        {/* </Route> */}
       </Routes>
     </main>
   );
