@@ -133,9 +133,9 @@ const SellerDashboard: React.FC = () => {
                 return <CardComponent key={card.id} card={card} />;
               })}
               {renderLoadingState()}
-              {cardStatus === 'failed' && (
+              {/* {cardStatus === 'failed' && (
                 <p className="mt-4 tracking-wdiest opacity-50">{error}</p>
-              )}
+              )} */}
             </div>
           </div>
         )}

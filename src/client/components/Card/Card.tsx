@@ -37,18 +37,19 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
 
   const cardBody = (
     <div className="cards-container">
+      <h2></h2>
       <img className="w-60 rounded-2xl" src={image} alt="cards" />
-      {/* <p className="m-2 font-light">Quality: {quality}</p> */}
-      <p className="m-2 font-light">
+      {/* <p className="m-2 opacity-50">Quality: {quality}</p> */}
+      <p className="m-2 font-bold opacity-40">
         Market Price:{' '}
         {(marketPrice !== null && `  $${marketPrice}`) || 'Not Available'}
       </p>
       {sellerPrice && (
-        <p className="m-2 font-light">Seller Price: ${sellerPrice}</p>
+        <p className="m-2 opacity-50">Seller Price: ${sellerPrice}</p>
       )}
       {(pathname === '/cart' && (
         <div className="flex flex-col items-center">
-          <p className="font-light">Quantity: x {cartQuantity}</p>
+          <p className="opacity-50">Quantity: x {cartQuantity}</p>
           <button
             className="clear-btn"
             onClick={() => dispatch(removeFromCart(card))}
