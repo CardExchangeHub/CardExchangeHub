@@ -90,12 +90,11 @@ export const getVerifyLogin = async (param: null, { rejectWithValue }) => {
       withCredentials: true,
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
       },
     });
-    console.log(response.data.user);
+    console.log(response.data.user)
     return response.data.user;
   } catch (error) {
     rejectWithValue('User not loggged in');
   }
-};
