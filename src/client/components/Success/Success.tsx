@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 interface User {
   username: string;
@@ -6,43 +7,41 @@ interface User {
 }
 
 function Success() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [userGreet, setUserGreet] = useState<User | null>(null); // Changed to User | null
   const [isAuth, updateIsAuth] = useState(false);
 
   useEffect(() => {
-    const getUser = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await fetch('/oauth/protected', {
-          method: 'GET',
-          credentials: 'include',
+        const response = await axios.get('/oauth/protected', {
+          withCredentials: true,
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Credentials': 'true',
           },
         });
-
-        const resObject = await response.json();
-        console.log(resObject);
-        console.log(resObject.user);
-        setUsers(resObject.user);
+        const resObject: User = response.data.user; // Added type annotation User
+        console.log(resObject.username);
+        console.log(resObject.email);
+        setUserGreet(resObject); // Set the entire user object
+        console.log(userGreet);
         updateIsAuth(true);
-        console.log(isAuth);
       } catch (err) {
         console.log(`Error: ${err}`);
       }
     };
+    fetchUserData();
+  }, []); // Empty dependency array, runs once during initial render
 
-    getUser();
-    console.log(users);
-  }, []);
+  if (userGreet === null) {
+    return <div>Loading user data...</div>;
+  }
 
   return (
-    <div className="vendorCard">
-      <h2>Google Login</h2>
-      <span>Welcome, {users.length > 0 ? users[0].username : ''}!</span>
-      <br />
-      <span>Email: {users.length > 0 ? users[0].email : ''}</span>
+    <div className="flex flex-col items-center justify-start h-screen mt-24">
+      <h2 className="text-2xl font-bold mb-4">User Dashboard</h2>
+      <span className="text-xl mb-2">Welcome, {userGreet.username}!</span>
+      <span className="text-gray-600">Email: {userGreet.email}</span>
     </div>
   );
 }

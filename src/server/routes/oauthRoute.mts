@@ -47,7 +47,7 @@ router.get(
 );
 
 //localhost8080/oauth/protected FETCH THIS ROUTE FOR REQ.USER OAUTH USER INFO
-router.get("/protected", passport.authenticate("google"), (req: CustomRequest, res: Response, next: NextFunction) => {
+router.get("/protected", (req: Request, res: Response) => {
   if (req.user) {
     res.status(200).json({
       success: true,

@@ -9,6 +9,7 @@ import express, {
 import cardRoute from './routes/card_route.mjs';
 import authRoute from './routes/auth_route.mjs';
 import oauthRoute from './routes/oauthRoute.mjs';
+// import cors from 'cors'; // Import the cors package
 
 import passport from "passport";
 import session from "express-session";
@@ -25,6 +26,7 @@ interface GoogleUser {
   google_id: string;
 }
 const app = express();
+// app.use(cors());
 
 app.use(
   session({
