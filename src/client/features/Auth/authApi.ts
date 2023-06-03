@@ -19,7 +19,7 @@ export const postRegisterUser = async (
   const { name, email, password } = newUser;
   try {
     const response = await axios.post(
-      'api/auth/register',
+      '/auth/register',
       {
         name,
         email,
@@ -45,7 +45,7 @@ export const postLoginUser = async (
   const { email, password } = newUser;
   try {
     const response = await axios.post(
-      'api/auth/login',
+      '/auth/login',
       {
         email,
         password,
@@ -71,8 +71,16 @@ export const postLoginUser = async (
 
 export const getVerifyLogin = async (param: null, { rejectWithValue }) => {
   try {
-    const response = await axios.get('api/auth/verify');
-    return response.data;
+    // const response = await axios.get('/auth/verify');
+    const response = await axios.get('/oauth/protected', {
+      withCredentials: true,
+      headers: {
+        Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+    });
+    console.log(response.data.user)
+    return response.data.user;
   } catch (error) {
     rejectWithValue('User not loggged in');
   }

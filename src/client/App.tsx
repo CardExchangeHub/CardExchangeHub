@@ -14,6 +14,7 @@ import './styles/main.css';
 import Cookies from 'js-cookie';
 import Register from './components/Register/Register';
 import Layout from './components/Layout/Layout';
+import Success from './components/Success/Success';
 
 const App = () => {
   return (
@@ -28,15 +29,16 @@ const App = () => {
           <Route path="/logout" element={<LogOut />} />
           <Route path="/register" element={<Register />} />
           {/* private routes */}
-          {/* <Route element={<PersistLogin />}> */}
-          <Route element={<RequireAuth />}>
-            <Route path="/dashboard" element={<SellerDashboard />} />
-            {/* will also pass checkout route here */}
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth />}>
+              <Route path="/success" element={<Success />} />
+              <Route path="/dashboard" element={<SellerDashboard />} />
+              {/* will also pass checkout route here */}
+            </Route>
           </Route>
+          {/* catch all route */}
+          <Route path="*" element={<NotFound />} />
         </Route>
-        {/* catch all route */}
-        <Route path="*" element={<NotFound />} />
-        {/* </Route> */}
       </Routes>
     </main>
   );
