@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 interface User {
-  firstname: string;
+  username: string;
   email: string;
 }
 
@@ -24,6 +24,7 @@ function Success() {
 
         const resObject = await response.json();
         console.log(resObject);
+        console.log(resObject.user);
         setUsers(resObject.user);
         updateIsAuth(true);
         console.log(isAuth);
@@ -39,7 +40,7 @@ function Success() {
   return (
     <div className="vendorCard">
       <h2>Google Login</h2>
-      <span>Welcome, {users.length > 0 ? users[0].firstname : ''}!</span>
+      <span>Welcome, {users.length > 0 ? users[0].username : ''}!</span>
       <br />
       <span>Email: {users.length > 0 ? users[0].email : ''}</span>
     </div>

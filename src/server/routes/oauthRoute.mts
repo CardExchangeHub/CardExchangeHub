@@ -21,7 +21,8 @@ router.get("/JWT", (req: CustomRequest, res: Response, next: NextFunction) => {
   //   username: req.user.username,
   // });
   // console.log("req.user: ", req.user);
-    return res.redirect("http://localhost:8080");
+    // return res.redirect("http://localhost:8080");
+    return res.redirect("http://localhost:8080/success");
 });
 
 
@@ -47,8 +48,15 @@ router.get(
 
 //localhost8080/oauth/protected FETCH THIS ROUTE FOR REQ.USER OAUTH USER INFO
 router.get("/protected", passport.authenticate("google"), (req: CustomRequest, res: Response, next: NextFunction) => {
-  if (req.user) res.json(req.user);
-  else res.json("oath user already logged out");
+  if (req.user) {
+    res.status(200).json({
+      success: true,
+      message: "successful!",
+      user: req.user,
+    });
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 ////localhost8080/oauth/google/failure

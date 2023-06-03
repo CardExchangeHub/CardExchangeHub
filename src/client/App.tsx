@@ -14,6 +14,7 @@ import './styles/main.css';
 import Cookies from 'js-cookie';
 import Register from './components/Register/Register';
 import Layout from './components/Layout/Layout';
+import Success from './components/Success/Success';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           {/* private routes */}
           {/* <Route element={<PersistLogin />}> */}
           {/* <Route element={<RequireAuth />}> */}
+          <Route path="/success" element={<Success />} />
           <Route path="/dashboard" element={<SellerDashboard />} />
           {/* will also pass checkout route here */}
         </Route>
