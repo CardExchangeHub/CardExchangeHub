@@ -12,23 +12,18 @@ interface CustomRequest extends Request {
 }
 
 // CREATES JWT & cookieSSID
-router.get(
-  "/JWT",
-  (req: CustomRequest, res: Response, next: NextFunction) => {
-    console.log('this is req from jwt')
-    console.log(req.user);
-    res.locals.id = cookieController.createJWToken({
-      id: req.user._id,
-      username: req.user.username,
-    });
-    console.log("req.user: ", req.user);
-    next();
-  },
-  cookieController.setSSIDCookie,
-  (_req: Request, res: Response) => {
-    res.redirect("/");
-  }
-);
+router.get("/JWT", (req: CustomRequest, res: Response, next: NextFunction) => {
+  cookieController.setSSIDCookie(req, res, next); // Include the 'next' argument
+  console.log('this is req from jwt');
+  console.log(req.user);
+  // res.locals.id = cookieController.createJWToken({
+  //   id: req.user.id,
+  //   username: req.user.username,
+  // });
+  // console.log("req.user: ", req.user);
+    return res.redirect("http://localhost:8080");
+});
+
 
 //localhost8080/oauth/google
 router.get(
@@ -44,7 +39,8 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "http://localhost:8080/oauth/JWT",
+    successRedirect: "/oauth/JWT",
+    // successRedirect: "/",
     failureRedirect: "/oauth/google/failure",
   })
 );
@@ -57,7 +53,10 @@ router.get("/protected", passport.authenticate("google"), (req: CustomRequest, r
 
 ////localhost8080/oauth/google/failure
 router.get("/google/failure",   (req: CustomRequest, res: Response, next: NextFunction) => {
-  res.send("Failed to authenticate..");
+  res.status(401).json({
+    success: false,
+    message: 'failure'
+  });
 });
 
 //localhost8080/oauth/logout ROUTE FOR OAUTH USER SESSION LOG OUT
