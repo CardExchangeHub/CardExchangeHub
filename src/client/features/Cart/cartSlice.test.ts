@@ -6,7 +6,8 @@ import cardsReducer, {
   clearCart,
   getTotals,
 } from './cartSlice';
-import { Card } from '../CardsList/cardsSlice';
+import { CardForSale } from '../CardsList/cardsSlice';
+import CardSaleForm from '../../components/CardSaleForm/CardSaleForm';
 
 describe('cart reducer', () => {
   const initialState: Cart = {
@@ -15,12 +16,9 @@ describe('cart reducer', () => {
     cartTotalAmount: 0,
   };
 
-  const cartItem: Card = {
-    id: 3,
-    images: {
-      small: 'small',
-      large: 'large',
-    },
+  const cartItem: CardForSale = {
+    id: '3',
+    image: '',
     cartQuantity: 1,
     quality: 'good',
     marketPrice: 5,

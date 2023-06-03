@@ -26,11 +26,8 @@ describe('Cart component', () => {
       cart: {
         cartItems: [
           {
-            id: 1,
-            images: {
-              small: 'image',
-              large: 'image',
-            },
+            id: '1',
+            image: 'string',
             cartQuantity: 1,
             quality: 'new',
             sellerPrice: 10,

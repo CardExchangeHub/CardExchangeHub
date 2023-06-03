@@ -118,7 +118,7 @@ const LogIn: React.FC = () => {
               </a>
               <FormInput
                 ref={userRef}
-                label="Email"
+                label=""
                 value={userInfo.email}
                 onChange={handleChange}
                 placeholder="email@email.com"
@@ -126,7 +126,7 @@ const LogIn: React.FC = () => {
                 type="text"
               />
               <FormInput
-                label="Password"
+                label=""
                 value={userInfo.password}
                 onChange={handleChange}
                 placeholder="********"

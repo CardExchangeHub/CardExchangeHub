@@ -8,7 +8,6 @@ import {
   selectCurrentPage,
   selectHasNextPage,
   fetchCards,
-  Card,
   selectError,
   pageNumberUpdated,
 } from '../../features/CardsList/cardsSlice';
