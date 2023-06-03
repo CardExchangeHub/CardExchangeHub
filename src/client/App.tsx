@@ -29,16 +29,16 @@ const App = () => {
           <Route path="/logout" element={<LogOut />} />
           <Route path="/register" element={<Register />} />
           {/* private routes */}
-          {/* <Route element={<PersistLogin />}> */}
-          {/* <Route element={<RequireAuth />}> */}
-          <Route path="/success" element={<Success />} />
-          <Route path="/dashboard" element={<SellerDashboard />} />
-          {/* will also pass checkout route here */}
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth />}>
+              <Route path="/success" element={<Success />} />
+              <Route path="/dashboard" element={<SellerDashboard />} />
+              {/* will also pass checkout route here */}
+            </Route>
+          </Route>
+          {/* catch all route */}
+          <Route path="*" element={<NotFound />} />
         </Route>
-        {/* </Route> */}
-        {/* catch all route */}
-        <Route path="*" element={<NotFound />} />
-        {/* </Route> */}
       </Routes>
     </main>
   );

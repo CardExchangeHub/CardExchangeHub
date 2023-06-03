@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectAuth, loginUser } from '../../features/Auth/authSlice';
 interface User {
   username: string;
   email: string;
+  google_id: string; // Add the token property
+  id: string;
 }
 
 function Success() {
+  const dispatch = useAppDispatch();
+
   const [userGreet, setUserGreet] = useState<User | null>(null); // Changed to User | null
   const [isAuth, updateIsAuth] = useState(false);
-
+  const auth = useAppSelector(selectAuth);
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+  });
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -21,20 +30,36 @@ function Success() {
           },
         });
         const resObject: User = response.data.user; // Added type annotation User
-        console.log(resObject.username);
+        console.log(resObject);
         console.log(resObject.email);
         setUserGreet(resObject); // Set the entire user object
         console.log(userGreet);
-        updateIsAuth(true);
+        // dispatch(loginUser(userInfo));
+        setUserInfo({
+          email: resObject.email,
+          password: resObject.google_id,
+        });
+        // dispatch(loginUser(userInfo));
+        // dispatch(loginUser{
+        //   type: 'LOGIN_SUCCESS',
+        //   payload: resObject.google_id,
+        //   userName: resObject.username,
+        //   email: resObject.email,
+        //   _id: resObject.id,
+        // });
       } catch (err) {
         console.log(`Error: ${err}`);
       }
     };
     fetchUserData();
-  }, []); // Empty dependency array, runs once during initial render
+  }, [dispatch]); // Empty dependency array, runs once during initial render
 
   if (userGreet === null) {
-    return <div>Loading user data...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading user data...
+      </div>
+    );
   }
 
   return (

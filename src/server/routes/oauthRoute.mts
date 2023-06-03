@@ -21,8 +21,8 @@ router.get("/JWT", (req: CustomRequest, res: Response, next: NextFunction) => {
   //   username: req.user.username,
   // });
   // console.log("req.user: ", req.user);
-    // return res.redirect("http://localhost:8080");
-    return res.redirect("http://localhost:8080/success");
+    // return res.redirect("http://localhost:8080/success");
+    return res.redirect("http://localhost:8080/dashboard");
 });
 
 
