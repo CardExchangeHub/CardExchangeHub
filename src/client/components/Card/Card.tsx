@@ -22,7 +22,8 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { id, image, quality, marketPrice, sellerPrice, cartQuantity } = card;
+  const { cardId, image, quality, marketPrice, sellerPrice, cartQuantity } =
+    card;
 
   const handleAddToCart = (card) => {
     dispatch(addToCart(card));
@@ -39,7 +40,7 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
     <div className="cards-container">
       <h2></h2>
       <img className="w-60 rounded-2xl" src={image} alt="cards" />
-      {/* <p className="m-2 opacity-50">Quality: {quality}</p> */}
+      <p className="m-2 opacity-50">Quality: {quality}</p>
       <p className="m-2 font-bold opacity-40">
         Market Price:{' '}
         {(marketPrice !== null && `  $${marketPrice}`) || 'Not Available'}
@@ -47,6 +48,7 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
       {sellerPrice && (
         <p className="m-2 opacity-50">Seller Price: ${sellerPrice}</p>
       )}
+
       {(pathname === '/cart' && (
         <div className="flex flex-col items-center">
           <p className="opacity-50">Quantity: x {cartQuantity}</p>

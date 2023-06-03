@@ -12,7 +12,7 @@ interface CustomRequest extends Request {
 }
 
 // CREATES JWT & cookieSSID
-router.get("/JWT", (req: CustomRequest, res: Response, next: NextFunction) => {
+router.get('/JWT', (req: CustomRequest, res: Response, next: NextFunction) => {
   cookieController.setSSIDCookie(req, res, next); // Include the 'next' argument
   console.log('this is req from jwt');
   console.log(req.user);
@@ -21,37 +21,36 @@ router.get("/JWT", (req: CustomRequest, res: Response, next: NextFunction) => {
   //   username: req.user.username,
   // });
   // console.log("req.user: ", req.user);
-    // return res.redirect("http://localhost:8080/success");
-    return res.redirect("http://localhost:8080/dashboard");
+  // return res.redirect("http://localhost:8080/success");
+  return res.redirect('http://localhost:8080/dashboard');
 });
-
 
 //localhost8080/oauth/google
 router.get(
-  "/google",
+  '/google',
   (req: Request, res: Response, next: NextFunction) => {
-    console.log("first authentication");
+    console.log('first authentication');
     next();
   },
-  passport.authenticate("google", { scope: ["email", "profile"] })
+  passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 
 //localhost8080/oauth/google/callback
 router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/oauth/JWT",
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/oauth/JWT',
     // successRedirect: "/",
-    failureRedirect: "/oauth/google/failure",
+    failureRedirect: '/oauth/google/failure',
   })
 );
 
 //localhost8080/oauth/protected FETCH THIS ROUTE FOR REQ.USER OAUTH USER INFO
-router.get("/protected", (req: Request, res: Response) => {
+router.get('/protected', (req: Request, res: Response) => {
   if (req.user) {
     res.status(200).json({
       success: true,
-      message: "successful!",
+      message: 'successful!',
       user: req.user,
     });
   } else {
@@ -60,18 +59,24 @@ router.get("/protected", (req: Request, res: Response) => {
 });
 
 ////localhost8080/oauth/google/failure
-router.get("/google/failure",   (req: CustomRequest, res: Response, next: NextFunction) => {
-  res.status(401).json({
-    success: false,
-    message: 'failure'
-  });
-});
+router.get(
+  '/google/failure',
+  (req: CustomRequest, res: Response, next: NextFunction) => {
+    res.status(401).json({
+      success: false,
+      message: 'failure',
+    });
+  }
+);
 
 //localhost8080/oauth/logout ROUTE FOR OAUTH USER SESSION LOG OUT
-router.get("/logout",   (req: CustomRequest, res: Response, next: NextFunction) => {
-  req.logout();
-  req.session.destroy();
-  res.send("Oauth User Logged Out!");
-});
+router.get(
+  '/logout',
+  (req: CustomRequest, res: Response, next: NextFunction) => {
+    req.logout();
+    req.session.destroy();
+    res.send('Oauth User Logged Out!');
+  }
+);
 
 export default router;

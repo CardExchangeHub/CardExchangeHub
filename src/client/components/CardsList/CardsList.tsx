@@ -54,9 +54,9 @@ const CardsList: React.FC = () => {
       {cards.map((card, i) => {
         if (cards.length === i + 1) {
           console.log('last card');
-          return <CardComponent key={card.id} card={card} ref={lastPostRef} />;
+          return <CardComponent key={card.cardId} card={card} ref={lastPostRef} />;
         }
-        return <CardComponent key={card.id} card={card} />;
+        return <CardComponent key={card.cardId} card={card} />;
       })}
       {cardStatus === 'loading' && <Spinner text="Loading..." />}
       {cardStatus === 'failed' && <div>{error}</div>}

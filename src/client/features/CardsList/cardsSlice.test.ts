@@ -4,7 +4,7 @@ describe('cards reducer', () => {
   const initialState: CardsState = {
     cardsList: [
       {
-        id: '3',
+        cardId: '3',
         image: 'string',
         cartQuantity: 1,
         quality: 'good',
@@ -16,7 +16,7 @@ describe('cards reducer', () => {
     sellerCardsList: [],
     cardsListBySearch: [],
     cardToSell: {
-      id: '',
+      cardId: '',
       image: '',
       marketPrice: '',
     },

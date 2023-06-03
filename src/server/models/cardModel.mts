@@ -3,8 +3,8 @@ import pg from 'pg';
 const { Pool } = pg;
 // import { Pool } from 'pg';
 
-
-const PG_URI = 'postgres://xxxnxtap:UTgcZo9f1658YnvDpHpYDhY0MvC4gWbA@rajje.db.elephantsql.com/xxxnxtap'
+const PG_URI =
+  'postgres://xxxnxtap:UTgcZo9f1658YnvDpHpYDhY0MvC4gWbA@rajje.db.elephantsql.com/xxxnxtap';
 // create a new pool here using the connection string above...pools all querys together so you can credit a single connection
 const pool = new Pool({
   connectionString: PG_URI,

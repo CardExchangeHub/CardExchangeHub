@@ -10,7 +10,7 @@ interface FetchCardsListParams {
 interface PostNewCardParams {
   userId: string;
   newCard: {
-    id: string;
+    cardId: string;
     image: string;
     quality: string;
     quantity: number;
@@ -37,9 +37,10 @@ export const fetchCardsList = async (
 ) => {
   try {
     const response = await axios.get(`/card/?_page=${page}&_limit=10`, options);
-
-    response.data;
+    console.log('fetchCardsData', response.data);
+    return response.data;
   } catch (error) {
+    console.log('fetchCardsError', error);
     return rejectWithValue(error.response.data);
   }
 };
@@ -61,7 +62,6 @@ export const fetchCardFromPokeApi = async (pokemonName: string) => {
   const response = await pokemon.card.where({
     q: `name:${pokemonName}`,
   });
-  console.log('response', response.data);
   return response.data;
 };
 
@@ -72,8 +72,10 @@ export const postCardToSell = async (
 ) => {
   try {
     const response = await axios.post(`/card/${userId}`, newCard);
+    console.log('response', response.data);
     return response.data;
   } catch (error) {
+    console.log('error', error);
     return rejectWithValue(error.response.data);
   }
 };
@@ -85,6 +87,7 @@ export const updateCard = async (
 ) => {
   try {
     const response = await axios.put(`/card/${cardId}`, card);
+    console.log('responseupdatecards', response.data.rows);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);

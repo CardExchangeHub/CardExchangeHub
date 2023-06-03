@@ -48,4 +48,27 @@ export default {
       });
     }
   },
+  //verify the user
+  verifyUser: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { username, password } = req.body;
+      
+      const query =
+        'SELECT * FROM "public.Users" WHERE username = ($1) AND password = ($2);';
+      const user = await db.query(query, [username, password]);
+      if (user.rows.length === 0) {
+        console.log('user not found in verifyUser');
+        return next();
+      } else {
+        res.locals.user = user.rows[0];
+        return next();
+      }
+    } catch (err) {
+      return next({
+        log: `Error verifying user in authController.verifyUser: ${err}`,
+        status: 500,
+        message: { err: 'Error verifying user in authController.verifyUser' },
+      });
+    }
+  },
 };
