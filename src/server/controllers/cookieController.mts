@@ -1,4 +1,3 @@
-
 // module.exports = cookieController;
 
 import { Request, Response, NextFunction } from 'express';
@@ -15,10 +14,10 @@ const cookieController: CookieController = {
       maxAge: 10 * 86400000,
       httpOnly: false,
     });
-      console.log(res.cookie)
+    console.log(res.cookie);
   },
   createJWToken: (id: any) => {
-      if (!process.env.JWT_SECRET) {
+    if (!process.env.JWT_SECRET) {
       throw new Error('JWT secret not defined');
     }
     return jwt.sign(id, process.env.JWT_SECRET, {
