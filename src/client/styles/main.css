@@ -12,7 +12,7 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
-#root{
+.App{
     display: flex;
     flex-direction: column;
     justify-content: center;
