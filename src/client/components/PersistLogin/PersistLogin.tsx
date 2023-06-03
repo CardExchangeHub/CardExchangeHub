@@ -10,12 +10,24 @@ const PersistLogin = () => {
   // for now using useState for quick implementation
   const [isLoading, setIsLoading] = useState(true);
 
+  // useEffect(() => {
+  //   console.log(auth._id);
+  //   if (!auth._id) {
+  //     dispatch(verifyLogin(null));
+  //   } else {
+  //     setIsLoading(false);
+  //   }
+  // }, []);
   useEffect(() => {
-    if (!auth._id) {
-      dispatch(verifyLogin(null));
-    } else {
+    const verifyUser = async () => {
+      console.log(auth._id);
+      if (!auth._id) {
+        await dispatch(verifyLogin(null));
+      }
       setIsLoading(false);
-    }
+    };
+
+    verifyUser();
   }, []);
 
   return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
