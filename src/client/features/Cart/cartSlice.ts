@@ -16,7 +16,7 @@ const initialState: Cart = {
 
 const removeItem = (state: Cart, action: any): CardForSale[] => {
   const updatedCartItems = state.cartItems.filter(
-    (cartItem) => cartItem.cardId !== action.payload.id
+    (cartItem) => cartItem.cardId !== action.payload.cardId
   );
   return updatedCartItems;
 };

@@ -71,7 +71,7 @@ export default {
 
   deleteCard: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userID = req.user.id;
+      const userID = 10;
       if (!userID) {
         return next({
           log: 'user not found',
