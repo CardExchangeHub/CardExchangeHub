@@ -15,10 +15,9 @@ const cookieController: CookieController = {
       maxAge: 10 * 86400000,
       httpOnly: false,
     });
-        console.log(res.cookie)
+      console.log(res.cookie)
   },
-
-  createJWToken: (id) => {
+  createJWToken: (id: any) => {
       if (!process.env.JWT_SECRET) {
       throw new Error('JWT secret not defined');
     }
