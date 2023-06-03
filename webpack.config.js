@@ -12,14 +12,19 @@ module.exports = {
   },
   mode: process.env.NODE_ENV || 'development',
   devServer: {
-    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, './src/client'),
       publicPath: '/',
     },
-    port: 8080,
+    // port: 8080,
     hot: true,
-    proxy: {},
+    proxy: {
+      '/oauth': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+    historyApiFallback: true,
   },
   module: {
     rules: [

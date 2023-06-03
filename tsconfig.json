@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    // "allowImportingTsExtensions": true,
+    // "moduleResolution": "bundler",
+    // "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist/",
     "module": "ESNext",
@@ -13,7 +16,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": false,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "esModuleInterop": true,
   },
   "exclude": [
     "node_modules",
