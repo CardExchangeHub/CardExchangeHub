@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    dispatch(logoutUser(null));
     navigate('/');
     location.reload();
   };

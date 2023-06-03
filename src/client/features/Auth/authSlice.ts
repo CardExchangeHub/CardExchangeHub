@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { postRegisterUser, postLoginUser, getVerifyLogin } from './authApi';
+import {
+  postRegisterUser,
+  postLoginUser,
+  getVerifyLogin,
+  postLogoutUser,
+} from './authApi';
 
 export interface AuthState {
   // token: string | null;
@@ -43,6 +48,8 @@ export const loginUser = createAsyncThunk('auth/loginUser', postLoginUser);
 
 export const verifyLogin = createAsyncThunk('auth/veryifyUser', getVerifyLogin);
 
+export const logoutUser = createAsyncThunk('auth/logoutUser', postLogoutUser);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -50,9 +57,6 @@ const authSlice = createSlice({
     resetLoginState: (state) => {
       state.loginStatus = 'idle';
       state.loginError = null;
-    },
-    logoutUser: (state) => {
-      state = initialState;
     },
     toggleAuthModal: (state) => {
       if (state.loginModalOpen) {
@@ -106,7 +110,7 @@ const authSlice = createSlice({
         state.loginStatus = 'pending';
       })
       .addCase(verifyLogin.fulfilled, (state, action) => {
-          console.log('verified', action.payload);
+        console.log('verified', action.payload);
         if (action.payload.id) {
           console.log('verified', action.payload);
           state.loginStatus = 'succeeded';
@@ -120,6 +124,18 @@ const authSlice = createSlice({
         if (typeof action.payload === 'string') {
           state.loginError = action.payload;
         }
+      })
+      .addCase(logoutUser.pending, (state, action) => {
+        state.loginStatus = 'pending';
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state = initialState;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loginStatus = 'failed';
+        if (typeof action.payload === 'string') {
+          state.loginError = action.payload;
+        }
       });
   },
 });
@@ -127,6 +143,6 @@ const authSlice = createSlice({
 export const selectAuth = (state: RootState) => state.auth;
 export const selectAuthModal = (state: RootState) => state.auth.loginModalOpen;
 
-export const { logoutUser, toggleAuthModal } = authSlice.actions;
+export const { toggleAuthModal } = authSlice.actions;
 
 export default authSlice.reducer;

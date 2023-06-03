@@ -69,6 +69,20 @@ export const postLoginUser = async (
   }
 };
 
+export const postLogoutUser = async (value: null, { rejectWithValue }) => {
+  try {
+    const response = await axios.post('/oauth/logout', value, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+};
+
 export const getVerifyLogin = async (param: null, { rejectWithValue }) => {
   try {
     // const response = await axios.get('/auth/verify');
@@ -84,4 +98,3 @@ export const getVerifyLogin = async (param: null, { rejectWithValue }) => {
   } catch (error) {
     rejectWithValue('User not loggged in');
   }
-};
