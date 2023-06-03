@@ -29,10 +29,10 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           {/* private routes */}
           {/* <Route element={<PersistLogin />}> */}
-          <Route element={<RequireAuth />}>
-            <Route path="/dashboard" element={<SellerDashboard />} />
-            {/* will also pass checkout route here */}
-          </Route>
+          {/* <Route element={<RequireAuth />}> */}
+          <Route path="/dashboard" element={<SellerDashboard />} />
+          {/* will also pass checkout route here */}
+          {/* </Route> */}
         </Route>
         {/* catch all route */}
         <Route path="*" element={<NotFound />} />
