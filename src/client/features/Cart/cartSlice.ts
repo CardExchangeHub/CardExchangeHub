@@ -1,9 +1,9 @@
 import { CombinedState, createSlice } from '@reduxjs/toolkit';
-import { Card } from '../CardsList/cardsSlice';
+import { CardFromSearch, CardForSale } from '../CardsList/cardsSlice';
 import { RootState } from '../../app/store';
 
 export interface Cart {
-  cartItems: Card[];
+  cartItems: CardForSale[];
   cartTotalQuantity: number;
   cartTotalAmount: number;
 }
@@ -14,7 +14,7 @@ const initialState: Cart = {
   cartTotalAmount: 0,
 };
 
-const removeItem = (state: Cart, action: any): Card[] => {
+const removeItem = (state: Cart, action: any): CardForSale[] => {
   const updatedCartItems = state.cartItems.filter(
     (cartItem) => cartItem.id !== action.payload.id
   );

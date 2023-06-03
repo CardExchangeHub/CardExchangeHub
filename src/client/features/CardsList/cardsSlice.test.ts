@@ -4,7 +4,7 @@ describe('cards reducer', () => {
   const initialState: CardsState = {
     cardsList: [
       {
-        id: 3,
+        id: '3',
         image: 'string',
         cartQuantity: 1,
         quality: 'good',
@@ -15,8 +15,16 @@ describe('cards reducer', () => {
     ],
     sellerCardsList: [],
     cardsListBySearch: [],
+    cardToSell: {
+      id: '',
+      image: '',
+      marketPrice: '',
+    },
+    searchModalView: false,
+    cardFormModalView: false,
+
     page: 1,
-    hasNextPage: false,
+    hasNextPage: true,
     status: 'idle',
     error: null,
   };
@@ -24,7 +32,14 @@ describe('cards reducer', () => {
     expect(cardsReducer(undefined, { type: 'unknown' })).toEqual({
       cardsList: [],
       sellerCardsList: [],
+      searchModalView: false,
+      cardFormModalView: false,
       cardsListBySearch: [],
+      cardToSell: {
+        id: '',
+        image: '',
+        marketPrice: '',
+      },
       page: 1,
       hasNextPage: true,
       status: 'idle',
