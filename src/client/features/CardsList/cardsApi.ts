@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { Card } from './cardsSlice';
+import { CardForSale } from './cardsSlice';
 import pokemon from 'pokemontcgsdk';
 
 interface FetchCardsListParams {
@@ -9,12 +9,24 @@ interface FetchCardsListParams {
 
 interface PostNewCardParams {
   userId: string;
-  newCard: Card;
+  newCard: {
+    id: string;
+    image: string;
+    quality: string;
+    quantity: number;
+    marketPrice: string | number | null;
+    sellerPrice: number;
+  };
 }
 
 interface UpdateCardParams {
   cardId: string;
-  card: Card;
+  card: CardForSale;
+}
+
+interface SellerParams {
+  userId: string;
+  options: AxiosRequestConfig;
 }
 
 // fetch cardslist - _page + _limit (in req.query) - returning limit of "next" 10 most recent cards
@@ -32,16 +44,29 @@ export const fetchCardsList = async (
   }
 };
 
-// UPDATE THIS TO REFLECT THE TCG API - https://pokemontcg.io/
-// We will get data back, display it as we do in cards list, then on click it will populate the
-// form within the seller dashboard - BACKEND TEAM DO NOT WORRY ABOUT THIS API CALL - Jeff
+// fetch seller cards - userId(req.params) - return all cards for seller
+export const fetchSellerCardsList = async (
+  { userId, options }: SellerParams,
+  { rejectWithValue }
+) => {
+  try {
+    const response = await axios.get(`/card/${userId}`, options);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+};
+
 export const fetchCardFromPokeApi = async (pokemonName: string) => {
-  const response = await pokemon.card.find(pokemonName);
-  return response;
+  const response = await pokemon.card.where({
+    q: `name:${pokemonName}`,
+  });
+  console.log('response', response.data);
+  return response.data;
 };
 
 // post newCard - userId(req.params) + card (req.body) - return entire card
-export const postNewCard = async (
+export const postCardToSell = async (
   { userId, newCard }: PostNewCardParams,
   { rejectWithValue }
 ) => {

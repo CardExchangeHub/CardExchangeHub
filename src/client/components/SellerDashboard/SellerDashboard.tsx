@@ -1,95 +1,96 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-
-interface Card {
-  id: string;
-  name: string;
-  imageUrl: string;
-}
-
-interface Price {
-  cardId: string;
-  price: number;
-}
+import React, { useState, useEffect } from 'react';
+import CardComponent from '../Card/Card';
+import CardSaleForm from '../CardSaleForm/CardSaleForm';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  fetchCardBySearch,
+  fetchSellerCards,
+  updateSellerCard,
+  sellCard,
+  toggleSearchModalView,
+  deleteSellerCard,
+  selectStatus,
+  selectError,
+  selectSearchModalView,
+  selectCardFormModalView,
+  selectSellerCards,
+  selectCardsBySearch,
+  selectCardToSell,
+} from '../../features/CardsList/cardsSlice';
+import { selectAuth } from '../../features/Auth/authSlice';
+import { render } from '@testing-library/react';
 
 const SellerDashboard: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const selectedCards = useAppSelector(selectCardsBySearch);
+  const sellerCards = useAppSelector(selectSellerCards);
+  const searchModalView = useAppSelector(selectSearchModalView);
+  const cardFormModalView = useAppSelector(selectCardFormModalView);
+  const cardStatus = useAppSelector(selectStatus);
+  const cardToSell = useAppSelector(selectCardToSell);
+  const { _id } = useAppSelector(selectAuth);
+  const error = useAppSelector(selectError);
   const [cardName, setCardName] = useState('');
-  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [price, setPrice] = useState(0);
   const [quality, setQuality] = useState('');
 
-  const handleSearch = async () => {
-    try {
-      // Fetch card data from TCG API using cardName
-      const response = await axios.get(`TCG api`, {
-        params: {
-          name: cardName,
-        },
-      });
+  useEffect(() => {
+    const controller = new AbortController();
 
-      const data = response.data;
+    const { signal } = controller;
 
-      // Assuming the API response returns an array of cards, select the first one
-      if (data && data.length > 0) {
-        const card = data[0];
-        setSelectedCard(card);
-      } else {
-        setSelectedCard(null);
-      }
-    } catch (error) {
-      console.error('Error fetching card data:', error);
+    if (_id) {
+      dispatch(fetchSellerCards({ userId: _id, options: { signal } }));
     }
+
+    return () => controller.abort();
+  }, []);
+
+  const handleSearch = (cardName: string) => {
+    dispatch(toggleSearchModalView());
+    dispatch(fetchCardBySearch(cardName.toLocaleLowerCase()));
+    setCardName('');
   };
 
-  const handleSell = async () => {
-    if (selectedCard) {
-      const sellData = {
-        cardId: selectedCard.id,
-        quality: quality,
-        price: price,
-      };
-
-      try {
-        // Make POST request to store card to be sold in the database
-        await axios.post('api/sell', sellData);
-
-        // Reset the selected card and price after successful sell
-        setSelectedCard(null);
-        setPrice(0);
-      } catch (error) {
-        console.error('Error selling card:', error);
-      }
-    }
+  const renderLoadingState = () => {
+    return cardStatus === 'loading' ? <p>Loading...</p> : null;
   };
 
   return (
     <div>
-      <input
-        type="text"
-        value={cardName}
-        onChange={(e) => setCardName(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
-
-      {selectedCard && (
-        <div>
-          <h3>{selectedCard.name}</h3>
-          <img src={selectedCard.imageUrl} alt={selectedCard.name} />
-          <label for="quality">Quality:</label>
-          <select value={quality} onChange={(e) => setQuality(e.target.value)}>
-            <option value="Mint">Mint</option>
-            <option value="Excellent">Excellent</option>
-            <option value="Good">Good</option>
-            <option value="Played">Played</option>
-          </select>
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(parseInt(e.target.value))}
-          />
-          <button onClick={handleSell}>Sell</button>
+      {(searchModalView && (
+        <div className="flex inset-0 flex-wrap justify-evenly z-50 bg-opacity-20">
+          {selectedCards.map((card, i) => {
+            return <CardComponent key={card.id} card={card} />;
+          })}
+          {renderLoadingState()}
+          {cardStatus === 'failed' && (
+            <div>
+              <button onClick={() => dispatch(toggleSearchModalView())}>
+                Search Again
+              </button>
+              <div>{error}</div>
+            </div>
+          )}
         </div>
-      )}
+      )) ||
+        (cardFormModalView && <CardSaleForm />) || (
+          <div>
+            <input
+              type="text"
+              value={cardName}
+              onChange={(e) => setCardName(e.target.value)}
+            />
+            <button onClick={() => handleSearch(cardName)}>Search</button>
+            <div className="flex inset-0 flex-wrap justify-evenly z-50 bg-opacity-20">
+              {sellerCards.map((card, i) => {
+                return <CardComponent key={card.id} card={card} />;
+              })}
+              {renderLoadingState()}
+              {cardStatus === 'failed' && <p>{error}</p>}
+            </div>
+          </div>
+        )}
     </div>
   );
 };
