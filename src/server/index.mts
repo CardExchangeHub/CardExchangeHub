@@ -9,6 +9,7 @@ import express, {
 import cardRoute from './routes/card_route.mjs';
 import authRoute from './routes/auth_route.mjs';
 import oauthRoute from './routes/oauthRoute.mjs';
+// import cors from 'cors'; // Import the cors package
 
 import passport from "passport";
 import session from "express-session";
@@ -24,7 +25,22 @@ const GOOGLE_CLIENT_SECRET = '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'
 interface GoogleUser {
   google_id: string;
 }
+const app = express();
+// app.use(cors());
 
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000, secure: false },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+// michelle
+app.use(express.json());
+app.use(urlencoded({ extended: true }));
 passport.use(
   new GoogleStrategy(
     {
@@ -82,26 +98,18 @@ passport.use(
   )
 );
 
-
-export default passport;
 //oauth code
-const app = express();
+app.get('/', (_req: Request, res: Response, next: NextFunction) => {
+  res.send('hello');
+  next();
+});
+app.use('/auth', authRoute);
+app.use('/card', cardRoute);
+app.use("/oauth", oauthRoute);
 
 const port = 3000;
 //michelle
-app.use(
-  session({
-    secret: "Our little secret.",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000, secure: false },
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-// michelle
-app.use(express.json());
-app.use(urlencoded({ extended: true }));
+
 passport.serializeUser((user: GoogleUser, done) => {
   console.log("serializing user:", user.google_id);
   done(null, user.google_id);
@@ -116,13 +124,6 @@ passport.deserializeUser(async function (user: GoogleUser, done) {
   return done(null, desuser.rows[0]);
 });
 //michelle end
-app.get('/', (_req: Request, res: Response, next: NextFunction) => {
-  res.send('hello');
-  next();
-});
-app.use('/auth', authRoute);
-app.use('/card', cardRoute);
-app.use("/oauth", oauthRoute);
 
 const errorHandler: ErrorRequestHandler = (
   err: Error,

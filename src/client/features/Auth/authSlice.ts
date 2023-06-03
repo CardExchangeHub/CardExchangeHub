@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { postRegisterUser, postLoginUser, getVerifyLogin } from './authApi';
+import {
+  postRegisterUser,
+  postLoginUser,
+  getVerifyLogin,
+  postLogoutUser,
+} from './authApi';
 
 export interface AuthState {
-  token: string | null;
+  // token: string | null;
   userName: string | null;
   email: string | null;
   _id: string | null;
@@ -22,7 +27,7 @@ export interface User {
 }
 
 const initialState: AuthState = {
-  token: null,
+  // token: null,
   userName: null,
   email: null,
   _id: null,
@@ -43,30 +48,15 @@ export const loginUser = createAsyncThunk('auth/loginUser', postLoginUser);
 
 export const verifyLogin = createAsyncThunk('auth/veryifyUser', getVerifyLogin);
 
+export const logoutUser = createAsyncThunk('auth/logoutUser', postLogoutUser);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // loadUser: (state) => {
-    //   const token = state.token;
-
-    //   if (token) {
-    //     const user: User = jwtDecode(token);
-    //     const { userName, email, _id } = user;
-
-    //     state.token = token;
-    //     state.userName = userName;
-    //     state.email = email;
-    //     state._id = _id;
-    //     state.userLoaded = true;
-    //   }
-    // },
     resetLoginState: (state) => {
       state.loginStatus = 'idle';
       state.loginError = null;
-    },
-    logoutUser: (state) => {
-      state = initialState;
     },
     toggleAuthModal: (state) => {
       if (state.loginModalOpen) {
@@ -86,7 +76,7 @@ const authSlice = createSlice({
           const user: User = action.payload;
           const { userName, email, _id } = user;
           state.registerStatus = 'succeeded';
-          state.token = action.payload;
+          // state.token = action.payload;
           state.userName = userName;
           state.email = email;
           state._id = _id;
@@ -104,7 +94,7 @@ const authSlice = createSlice({
           const user: User = action.payload;
           const { userName, email, _id } = user;
           state.loginStatus = 'succeeded';
-          state.token = action.payload;
+          // state.token = action.payload;
           state.userName = userName;
           state.email = email;
           state._id = _id;
@@ -120,17 +110,28 @@ const authSlice = createSlice({
         state.loginStatus = 'pending';
       })
       .addCase(verifyLogin.fulfilled, (state, action) => {
-        if (action.payload.token) {
-          const user: User = action.payload;
-          const { userName, email, _id } = user;
+        console.log('verified', action.payload);
+        if (action.payload.id) {
+          console.log('verified', action.payload);
           state.loginStatus = 'succeeded';
-          state.token = action.payload;
-          state.userName = userName;
-          state.email = email;
-          state._id = _id;
+          state._id = action.payload.id;
+          state.userName = action.payload.username;
+          state.email = action.payload.email;
         }
       })
       .addCase(verifyLogin.rejected, (state, action) => {
+        state.loginStatus = 'failed';
+        if (typeof action.payload === 'string') {
+          state.loginError = action.payload;
+        }
+      })
+      .addCase(logoutUser.pending, (state, action) => {
+        state.loginStatus = 'pending';
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state = initialState;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
         state.loginStatus = 'failed';
         if (typeof action.payload === 'string') {
           state.loginError = action.payload;
@@ -142,6 +143,6 @@ const authSlice = createSlice({
 export const selectAuth = (state: RootState) => state.auth;
 export const selectAuthModal = (state: RootState) => state.auth.loginModalOpen;
 
-export const { logoutUser, toggleAuthModal } = authSlice.actions;
+export const { toggleAuthModal } = authSlice.actions;
 
 export default authSlice.reducer;
