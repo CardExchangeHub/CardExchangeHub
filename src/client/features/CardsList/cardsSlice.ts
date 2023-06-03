@@ -1,22 +1,41 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { fetchCardsList, postNewCard } from './cardsApi';
+import {
+  fetchCardsList,
+  postCardToSell,
+  fetchCardFromPokeApi,
+  updateCard,
+  deleteCard,
+  fetchSellerCardsList,
+} from './cardsApi';
 
-export interface Card {
-  id: number;
-  images: {
-    large: string;
-    small: string;
-  };
+export interface CardFromSearch {
+  id: string;
+  image: string;
+  quality?: string;
+  marketPrice: string | number | null;
+  sellerPrice?: number;
+  dateAdded?: string;
+  cartQuantity?: number;
+}
+
+export interface CardForSale {
+  id: string;
+  image: string;
   quality: string;
-  marketPrice: number;
+  marketPrice: string | number | null;
   sellerPrice: number;
   dateAdded: string;
   cartQuantity: number;
 }
 
 export interface CardsState {
-  cardsList: Card[];
+  cardsList: CardForSale[];
+  sellerCardsList: CardForSale[];
+  cardsListBySearch: CardFromSearch[];
+  cardToSell: CardFromSearch;
+  searchModalView: boolean;
+  cardFormModalView: boolean;
   page: number;
   hasNextPage: boolean;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -25,6 +44,16 @@ export interface CardsState {
 
 const initialState: CardsState = {
   cardsList: [],
+  sellerCardsList: [],
+  cardsListBySearch: [],
+  cardToSell: {
+    id: '',
+    image: '',
+    marketPrice: '',
+  },
+  searchModalView: false,
+  cardFormModalView: false,
+
   page: 1,
   hasNextPage: true,
   status: 'idle',
@@ -33,7 +62,27 @@ const initialState: CardsState = {
 
 export const fetchCards = createAsyncThunk('cards/fetchCards', fetchCardsList);
 
-export const addNewCard = createAsyncThunk('cards/addNewCard', postNewCard);
+export const fetchSellerCards = createAsyncThunk(
+  'cards/fetchSellerCards',
+  fetchSellerCardsList
+);
+
+export const fetchCardBySearch = createAsyncThunk(
+  'cards/fetchCardBySearch',
+  fetchCardFromPokeApi
+);
+
+export const sellCard = createAsyncThunk('cards/addNewCard', postCardToSell);
+
+export const updateSellerCard = createAsyncThunk(
+  'cards/updateSellerCard',
+  updateCard
+);
+
+export const deleteSellerCard = createAsyncThunk(
+  'cards/deleteSellerCard',
+  deleteCard
+);
 
 export const cardsListSlice = createSlice({
   name: 'cards',
@@ -41,6 +90,20 @@ export const cardsListSlice = createSlice({
   reducers: {
     pageNumberUpdated: (state) => {
       state.page += 1;
+    },
+    toggleSearchModalView: (state) => {
+      if (state.searchModalView) {
+        state.status = 'idle';
+        state.error = null;
+      }
+      state.searchModalView = !state.searchModalView;
+    },
+    clearCardsListBySearch: (state) => {
+      state.cardsListBySearch = [];
+    },
+    setCardToSell: (state, action) => {
+      state.cardToSell = action.payload;
+      state.cardFormModalView = true;
     },
   },
   extraReducers(builder) {
@@ -57,8 +120,80 @@ export const cardsListSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(addNewCard.fulfilled, (state, action) => {
-        state.cardsList.push(action.payload);
+      .addCase(fetchSellerCards.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchSellerCards.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.sellerCardsList = action.payload;
+      })
+      .addCase(fetchSellerCards.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchCardBySearch.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchCardBySearch.fulfilled, (state, action) => {
+        if (!action.payload.length) {
+          state.status = 'failed';
+          state.error = 'No cards found';
+          return;
+        }
+        state.status = 'succeeded';
+        state.cardsListBySearch = action.payload.map((card: any) => {
+          return {
+            id: card.id,
+            marketPrice: card?.cardmarket?.prices?.averageSellPrice || null,
+            image: card.images.small,
+          };
+        });
+      })
+      .addCase(fetchCardBySearch.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(sellCard.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(sellCard.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.sellerCardsList = state.sellerCardsList.concat(action.payload);
+        state.cardFormModalView = false;
+        state.cardToSell = initialState.cardToSell;
+      })
+      .addCase(sellCard.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(updateSellerCard.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(updateSellerCard.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.sellerCardsList = state.sellerCardsList.map((card) => {
+          if (card.id === action.payload.id) {
+            return action.payload;
+          }
+          return card;
+        });
+      })
+      .addCase(updateSellerCard.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(deleteSellerCard.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteSellerCard.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.sellerCardsList = state.sellerCardsList.filter(
+          (card) => card.id !== action.payload.id
+        );
+      })
+      .addCase(deleteSellerCard.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
@@ -68,7 +203,21 @@ export const selectStatus = (state: RootState) => state.cards.status;
 export const selectCurrentPage = (state: RootState) => state.cards.page;
 export const selectError = (state: RootState) => state.cards.error;
 export const selectHasNextPage = (state: RootState) => state.cards.hasNextPage;
+export const selectSellerCards = (state: RootState) =>
+  state.cards.sellerCardsList;
+export const selectCardsBySearch = (state: RootState) =>
+  state.cards.cardsListBySearch;
+export const selectSearchModalView = (state: RootState) =>
+  state.cards.searchModalView;
+export const selectCardFormModalView = (state: RootState) =>
+  state.cards.cardFormModalView;
+export const selectCardToSell = (state: RootState) => state.cards.cardToSell;
 
-export const { pageNumberUpdated } = cardsListSlice.actions;
+export const {
+  pageNumberUpdated,
+  toggleSearchModalView,
+  clearCardsListBySearch,
+  setCardToSell,
+} = cardsListSlice.actions;
 
 export default cardsListSlice.reducer;
