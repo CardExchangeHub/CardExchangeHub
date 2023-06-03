@@ -4,9 +4,8 @@ import db from '../models/cardModel.mjs';
 export default {
   //get all cards currently for sale
   //sort by date
-  //only get [req.query._page *10, req.query.limig
   getCardsForSale: async (req: Request, res: Response, next: NextFunction) => {
-    const { _page, limit } = req.query;
+    const { _page, _limit } = req.query;
     try {
       //subtract 1 from page number so that page 1 starts at index 0. Else cardStart would be 10
       //and we wouldn't receive cards 0-10.
@@ -16,7 +15,7 @@ export default {
       const cardsForSale = await db.query(cardsQuery, [
         false,
         cardStart,
-        limit,
+        _limit,
       ]);
 
       res.locals.cards = cardsForSale;
@@ -33,7 +32,6 @@ export default {
   },
   addCard: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      //res.locals?
       const user = res.locals.user;
       if (!user) {
         return next({
@@ -42,35 +40,35 @@ export default {
           message: { e: 'user not found' },
         });
         //need to verify that user is the card holder
-      } else {
-        const cardHolder = await db.query(
-          'SELECT id FROM "public.Users" WHERE id = $1',
-          [req.params.id]
-        );
-        // check if user isnt found
-        if (cardHolder.rowCount === 0) {
-          console.log('user not found');
-          return null;
-        }
-        //check if user is card holder
-        if (user.id !== cardHolder.rows[0].id) {
-          console.log('user not card holder');
-          return next();
-        }
-        // insert card into database
-        const newCard = await db.query(
-          'INSERT INTO "public.market_postings" (price, condition,seller,"cardId" ) VALUES ($1,$2,$3, $4) RETURNING *',
-          [
-            req.body.card_price,
-            req.body.card_description,
-            cardHolder.rows[0].id,
-            req.body.cardId,
-          ]
-        );
-
-        res.locals.newCard = newCard.rows[0];
+      }
+      const cardHolder = await db.query(
+        'SELECT id FROM "public.Users" WHERE id = $1',
+        [req.params.id]
+      );
+      // check if user isnt found
+      if (cardHolder.rowCount === 0) {
+        console.log('user not found');
+        return null;
+      }
+      //check if user is card holder
+      if (user.id !== cardHolder.rows[0].id) {
+        console.log('user not card holder');
         return next();
       }
+
+      // insert card into database
+      const newCard = await db.query(
+        'INSERT INTO "public.market_postings" (price, condition,seller,"cardId", "image" ) VALUES ($1,$2,$3, $4,$5) RETURNING *',
+        [
+          req.body.sellerPrice,
+          req.body.quality,
+          cardHolder.rows[0].id,
+          req.body.cardId,
+          req.body.image,
+        ]
+      );
+      res.locals.newCard = newCard.rows[0];
+      return next();
     } catch (err) {
       return next({
         log: `Error in addCard middleware: ${err}`,
@@ -181,7 +179,7 @@ export default {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const cardUpdateData = await db.query(
           'UPDATE "public.market_postings" SET price = $1, condition = $2 WHERE id = $3',
-          [req.body.card_price, req.body.card_description, idOfCard]
+          [req.body.card_price, req.body.quality, idOfCard]
         );
 
         res.locals.cards = cardUpdateData.rows[0];

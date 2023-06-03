@@ -3,6 +3,7 @@ import { RootState } from '../../app/store';
 import { fetchCardsList, postNewCard } from './cardsApi';
 
 export interface Card {
+  //id needs to be string to access Poke API
   id: number;
   images: {
     large: string;
