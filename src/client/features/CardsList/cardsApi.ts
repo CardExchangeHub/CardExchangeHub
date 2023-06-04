@@ -36,7 +36,10 @@ export const fetchCardsList = async (
   { rejectWithValue }
 ) => {
   try {
-    const response = await axios.get(`/card/?_page=${page}&_limit=10`, options);
+    const response = await axios.get(
+      `api/card/?_page=${page}&_limit=10`,
+      options
+    );
     console.log('fetchCardsData', response.data);
     return response.data;
   } catch (error) {
@@ -51,7 +54,7 @@ export const fetchSellerCardsList = async (
   { rejectWithValue }
 ) => {
   try {
-    const response = await axios.get(`/card/${userId}`, options);
+    const response = await axios.get(`api/card/${userId}`, options);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -71,7 +74,7 @@ export const postCardToSell = async (
   { rejectWithValue }
 ) => {
   try {
-    const response = await axios.post(`/card/${userId}`, newCard);
+    const response = await axios.post(`api/card/${userId}`, newCard);
     console.log('response', response.data);
     return response.data;
   } catch (error) {
@@ -86,7 +89,7 @@ export const updateCard = async (
   { rejectWithValue }
 ) => {
   try {
-    const response = await axios.put(`/card/${cardId}`, card);
+    const response = await axios.put(`api/card/${cardId}`, card);
     console.log('responseupdatecards', response.data.rows);
     return response.data;
   } catch (error) {
@@ -97,7 +100,7 @@ export const updateCard = async (
 // delete card - cardId(req.params) - return cardId
 export const deleteCard = async (cardId: string, { rejectWithValue }) => {
   try {
-    const response = await axios.delete(`/card/${cardId}`);
+    const response = await axios.delete(`api/card/${cardId}`);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
