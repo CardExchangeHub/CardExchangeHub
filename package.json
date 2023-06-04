@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "test": "jest --verbose",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --hot --open --progress --color\" \"nodemon ./server/server.js\"",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --hot --open --progress --color\" \"nodemon\"",
     "start": "webpack-dev-server --hot --open --progress --color",
     "server:start": "nodemon",
     "server": "ts-node --esm src/server/index.mts",

@@ -19,11 +19,7 @@ module.exports = {
     port: 8080,
     hot: true,
     proxy: {
-      '/oauth/*': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-      '/card': {
+      '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
       },
