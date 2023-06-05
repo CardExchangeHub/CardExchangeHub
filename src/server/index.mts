@@ -48,7 +48,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/oauth/google/callback',
+      callbackURL: 'http://localhost:3000/api/oauth/google/callback',
       passReqToCallback: true,
     },
     async (request, accessToken, refreshToken, profile, done) => {
@@ -109,7 +109,7 @@ app.get('/', (_req: Request, res: Response, next: NextFunction) => {
 });
 app.use('/api/auth', authRoute);
 app.use('/api/card', cardRoute);
-app.use('/oauth', oauthRoute);
+app.use('/api/oauth', oauthRoute);
 
 const port = 3000;
 //michelle
