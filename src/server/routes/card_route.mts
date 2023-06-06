@@ -8,7 +8,6 @@ router.get(
   '/',
   cardController.getCardsForSale,
   (_req: Request, res: Response) => {
-    console.log('returned cards', res.locals.cards);
     res.status(200).json(res.locals.cards);
   }
 );

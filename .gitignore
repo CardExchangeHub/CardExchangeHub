@@ -4,4 +4,6 @@ Session.vim
 dist/
 src/.DS_Store
 src/client/.DS_Store
+.DS_Store
 .env
+src/server/models/ryan-dev.sql

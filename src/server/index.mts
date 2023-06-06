@@ -6,6 +6,7 @@ import express, {
   urlencoded,
 } from 'express';
 
+import 'dotenv/config';
 import cardRoute from './routes/card_route.mjs';
 import authRoute from './routes/auth_route.mjs';
 import oauthRoute from './routes/oauthRoute.mjs';
