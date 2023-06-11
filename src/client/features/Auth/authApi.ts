@@ -85,7 +85,6 @@ export const postLogoutUser = async (value: null, { rejectWithValue }) => {
 
 export const getVerifyLogin = async (param: null, { rejectWithValue }) => {
   try {
-    // const response = await axios.get('/auth/verify');
     const response = await axios.get('/oauth/protected', {
       withCredentials: true,
       headers: {
