@@ -12,20 +12,16 @@ import {
 export interface CardFromSearch {
   cardId: string;
   image: string;
-  quality?: string;
   marketPrice: string | number | null;
-  sellerPrice?: number;
-  dateAdded?: string;
-  cartQuantity?: number;
 }
 
 export interface CardForSale {
   cardId: string;
   image: string;
-  quality: string;
-  marketPrice: string | number | null;
-  sellerPrice: number;
-  dateAdded: string;
+  condition: string;
+  marketPrice?: string | number | null;
+  seller: number;
+  date: string;
   cartQuantity: number;
 }
 
@@ -118,19 +114,7 @@ export const cardsListSlice = createSlice({
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.status = 'succeeded';
         if (action.payload.length) {
-          const data = action.payload.map((card) => {
-            const num = Math.random() * 500;
-            return {
-              cardId: card.cardId,
-              image: card.image,
-              quality: card.condition,
-              sellerPrice: card.price,
-              marketPrice: parseInt(num.toString()),
-              dateAdded: card.date,
-            };
-          });
-          // state.cardsList = state.cardsList.concat(action.payload);
-          state.cardsList = state.cardsList.concat(data);
+          state.cardsList = state.cardsList.concat(action.payload);
         }
         state.hasNextPage = Boolean(action.payload.length);
       })

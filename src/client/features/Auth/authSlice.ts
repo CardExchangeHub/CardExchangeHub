@@ -3,7 +3,6 @@ import { RootState } from '../../app/store';
 import { postRegisterUser, postLoginUser, getVerifyLogin } from './authApi';
 
 export interface AuthState {
-  // token: string | null;
   userName: string | null;
   email: string | null;
   _id: string | null;
@@ -94,7 +93,6 @@ const authSlice = createSlice({
         state.userName = userName;
         state.email = email;
         state._id = id;
-        // }
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginStatus = 'failed';

@@ -18,7 +18,6 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (!auth._id && state?.showLogin === true) {
       dispatch(toggleAuthModal());
-      // Not sure if this is the correct way to handle this, will go back to docs and review later - Jeff
       state.showLogin = false;
     }
   }, []);

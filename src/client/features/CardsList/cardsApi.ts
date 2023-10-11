@@ -29,8 +29,6 @@ interface SellerParams {
   options: AxiosRequestConfig;
 }
 
-// fetch cardslist - _page + _limit (in req.query) - returning limit of "next" 10 most recent cards
-// depending on page number, sorted by date
 export const fetchCardsList = async (
   { page, options }: FetchCardsListParams,
   { rejectWithValue }
@@ -45,7 +43,6 @@ export const fetchCardsList = async (
   }
 };
 
-// fetch seller cards - userId(req.params) - return all cards for seller
 export const fetchSellerCardsList = async (
   { userId, options }: SellerParams,
   { rejectWithValue }
@@ -65,7 +62,6 @@ export const fetchCardFromPokeApi = async (pokemonName: string) => {
   return response.data;
 };
 
-// post newCard - userId(req.params) + card (req.body) - return entire card
 export const postCardToSell = async (
   { userId, newCard }: PostNewCardParams,
   { rejectWithValue }
@@ -80,7 +76,6 @@ export const postCardToSell = async (
   }
 };
 
-// update card - cardId(req.params) + card (req.body) - return entire card
 export const updateCard = async (
   { cardId, card }: UpdateCardParams,
   { rejectWithValue }
@@ -94,7 +89,6 @@ export const updateCard = async (
   }
 };
 
-// delete card - cardId(req.params) - return cardId
 export const deleteCard = async (cardId: string, { rejectWithValue }) => {
   try {
     const response = await axios.delete(`/card/${cardId}`);
@@ -103,53 +97,3 @@ export const deleteCard = async (cardId: string, { rejectWithValue }) => {
     return rejectWithValue(error.response.data);
   }
 };
-
-// TEST DATA
-// let cards;
-// cards = await new Promise((resolve, reject) => {
-//   resolve([
-//     {
-//       id: 1,
-//       quality: 'mint',
-//       marketPrice: 10,
-//       sellerPrice: 20,
-//       dateAdded: '5/5/2021',
-//       images: {
-//         small:
-//           'https://product-images.tcgplayer.com/fit-in/874x874/246758.jpg',
-//         large: 'Blastoise',
-//       },
-//     },
-//     {
-//       id: 2,
-//       quality: 'mint',
-//       marketPrice: 10,
-//       sellerPrice: 20,
-//       dateAdded: '5/5/2021',
-//       images: {
-//         small:
-//           'https://product-images.tcgplayer.com/fit-in/874x874/277014.jpg',
-//         large: 'Blastoise',
-//       },
-//     },
-//   ]);
-//   // reject([
-//   //   {
-//   //     id: 1,
-//   //     images: {
-//   //       small:
-//   //         'https://www.giantbomb.com/a/uploads/scale_small/13/135472/1891763-006charizard.png',
-//   //       large: 'Blastoise',
-//   //     },
-//   //   },
-//   //   {
-//   //     id: 2,
-//   //     images: {
-//   //       small:
-//   //         'https://mir-s3-cdn-cf.behance.net/project_modules/fs/41f2ae115606005.6051ca43c30bd.jpg',
-//   //       large: 'Blastoise',
-//   //     },
-//   //   },
-//   // ]);
-// });
-// return cards.data;

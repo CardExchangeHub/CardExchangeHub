@@ -2,10 +2,10 @@ import React, { forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   CardForSale,
-  CardFromSearch,
   toggleSearchModalView,
   clearCardsListBySearch,
   setCardToSell,
+  CardFromSearch,
 } from '../../features/CardsList/cardsSlice';
 import {
   addToCart,
@@ -22,8 +22,7 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { cardId, image, quality, marketPrice, sellerPrice, cartQuantity } =
-    card;
+  const { cardId, image, marketPrice } = card;
 
   const handleAddToCart = (card) => {
     dispatch(addToCart(card));
@@ -40,25 +39,28 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
     <div className="cards-container">
       <h2></h2>
       <img className="w-60 rounded-2xl" src={image} alt="cards" />
-      <p className="m-2 opacity-50">Quality: {quality}</p>
+      <p className="m-2 opacity-50">
+        Quality: {'condition' in card && card.condition}
+      </p>
       <p className="m-2 font-bold opacity-40">
         Market Price:{' '}
         {(marketPrice !== null && `  $${marketPrice}`) || 'Not Available'}
       </p>
-      {sellerPrice && (
-        <p className="m-2 opacity-50">Seller Price: ${sellerPrice}</p>
+      {'seller' in card && (
+        <p className="m-2 opacity-50">Seller Price: ${card.seller}</p>
       )}
 
       {(pathname === '/cart' && (
         <div className="flex flex-col items-center">
-          <p className="opacity-50">Quantity: x {cartQuantity}</p>
+          <p className="opacity-50">
+            Quantity: x {'cartQuantity' in card && card.cartQuantity}
+          </p>
           <button
             className="clear-btn"
             onClick={() => dispatch(removeFromCart(card))}
           >
             Remove
           </button>
-          {/* <p>Item total: {cartQuantity * sellerPrice}</p> */}
         </div>
       )) ||
         (pathname === '/' && (
@@ -69,7 +71,7 @@ const CardComponent = forwardRef<HTMLDivElement, CardProps>(({ card }, ref) => {
             Add to Cart
           </button>
         )) ||
-        (!sellerPrice && (
+        ('seller' in card && !card.seller && (
           <button
             className="add-cart-btn"
             onClick={() => handleAddToSell(card)}

@@ -39,6 +39,7 @@ function Success() {
           email: resObject.email,
           password: resObject.google_id,
         });
+        // TODO
         // dispatch(loginUser(userInfo));
         // dispatch(loginUser{
         //   type: 'LOGIN_SUCCESS',

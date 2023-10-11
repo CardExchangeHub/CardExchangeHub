@@ -54,7 +54,9 @@ const CardsList: React.FC = () => {
       {cards.map((card, i) => {
         if (cards.length === i + 1) {
           console.log('last card');
-          return <CardComponent key={card.cardId} card={card} ref={lastPostRef} />;
+          return (
+            <CardComponent key={card.cardId} card={card} ref={lastPostRef} />
+          );
         }
         return <CardComponent key={card.cardId} card={card} />;
       })}

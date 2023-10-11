@@ -6,8 +6,6 @@ import { selectAuth, verifyLogin } from '../../features/Auth/authSlice';
 const PersistLogin = () => {
   const auth = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
-  // will want to dispatch loading to true - this will be for dashboard or checkout - will create a reducer for this
-  // for now using useState for quick implementation
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
