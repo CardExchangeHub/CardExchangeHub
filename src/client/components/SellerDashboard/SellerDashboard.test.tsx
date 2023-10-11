@@ -20,10 +20,8 @@ describe('Sell', () => {
       status: 'success',
     };
 
-    // Mock the axios.get function to return mock card data
     (axios.get as jest.Mock).mockResolvedValueOnce({ data: mockCardData });
 
-    // Mock the axios.post function to return a mock sell response
     (axios.post as jest.Mock).mockResolvedValueOnce({ data: mockSellResponse });
 
     const { getByText, getByTestId } = render(<SellerDashboard />);
@@ -32,25 +30,19 @@ describe('Sell', () => {
     const searchButton = getByText('Search');
     const sellButton = getByText('Sell');
 
-    // Type 'Mock Card' into the search input
     userEvent.type(searchInput, 'Mock Card');
 
-    // Click the search button
     userEvent.click(searchButton);
 
-    // Expect the card name to be displayed
     await waitFor(() => {
       expect(getByText('Mock Card')).toBeInTheDocument();
     });
 
-    // Type '10' into the price input
     const priceInput = getByTestId('card-price-input');
     userEvent.type(priceInput, '10');
 
-    // Click the sell button
     userEvent.click(sellButton);
 
-    // Expect the axios.post function to be called with the correct data
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith('api/sell', {
         cardId: '123',
@@ -58,7 +50,6 @@ describe('Sell', () => {
       });
     });
 
-    // Expect the selected card and price to be reset
     await waitFor(() => {
       expect(getByTestId('card-name')).not.toBeInTheDocument();
       expect(priceInput).toHaveValue(0);

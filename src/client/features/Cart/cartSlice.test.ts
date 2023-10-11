@@ -7,7 +7,6 @@ import cardsReducer, {
   getTotals,
 } from './cartSlice';
 import { CardForSale } from '../CardsList/cardsSlice';
-import CardSaleForm from '../../components/CardSaleForm/CardSaleForm';
 
 describe('cart reducer', () => {
   const initialState: Cart = {
@@ -20,10 +19,10 @@ describe('cart reducer', () => {
     cardId: '3',
     image: '',
     cartQuantity: 1,
-    quality: 'good',
+    condition: 'good',
     marketPrice: 5,
-    sellerPrice: 10,
-    dateAdded: '5/5/2021',
+    seller: 10,
+    date: '5/5/2021',
   };
   it('should handle initial cart state', () => {
     expect(cardsReducer(undefined, { type: 'unknown' })).toEqual(initialState);

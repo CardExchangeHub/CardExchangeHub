@@ -31,12 +31,10 @@ const LogIn: React.FC = () => {
     password: '',
   });
 
-  // set focus on username input field
   useEffect(() => {
     userRef?.current?.focus();
   }, []);
 
-  // Maybe a better way to handle this? - Jeff
   useEffect(() => {
     if (auth._id) {
       setUserInfo({
@@ -49,7 +47,7 @@ const LogIn: React.FC = () => {
   }, [auth]);
 
   const handleRegister = () => {
-    setShowSignUp(true); // Show the "Sign Up" component after form submission
+    setShowSignUp(true);
   };
 
   const handleChange = ({
@@ -65,7 +63,6 @@ const LogIn: React.FC = () => {
     dispatch(loginUser(userInfo));
   };
 
-  // possibly refactor to add conditional rendering in the return statement
   if (!modalState) {
     return null;
   }

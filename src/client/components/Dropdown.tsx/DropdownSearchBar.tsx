@@ -19,26 +19,6 @@ const DropDown: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
-  //   useEffect(() => {
-  //     const fetchCards = async () => {
-  //       //this will be soemthign else
-  //       const res = await fetch('/landlords/cities');
-  //       const data = await res.json();
-  //       console.log('cards', data);
-  //       setCards(data);
-  //     };
-  //     fetchCards();
-  //   }, []);
-  // return (
-  //   <div>
-  //     {cards.map((card) => (
-  //       <Link key={card.id} to={`/cards/${card.id}`}>
-  //         {card.name}
-  //       </Link>
-  //     ))}
-  //   </div>
-  // );
-
   return (
     <div className="relative inline-block">
       <button

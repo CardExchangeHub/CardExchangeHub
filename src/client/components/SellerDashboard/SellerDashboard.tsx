@@ -5,10 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   fetchCardBySearch,
   fetchSellerCards,
-  updateSellerCard,
-  sellCard,
   toggleSearchModalView,
-  deleteSellerCard,
   selectStatus,
   selectError,
   selectSearchModalView,
@@ -18,7 +15,6 @@ import {
   selectCardToSell,
 } from '../../features/CardsList/cardsSlice';
 import { selectAuth } from '../../features/Auth/authSlice';
-import { render } from '@testing-library/react';
 
 const SellerDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -133,9 +129,6 @@ const SellerDashboard: React.FC = () => {
                 return <CardComponent key={card.cardId} card={card} />;
               })}
               {renderLoadingState()}
-              {/* {cardStatus === 'failed' && (
-                <p className="mt-4 tracking-wdiest opacity-50">{error}</p>
-              )} */}
             </div>
           </div>
         )}

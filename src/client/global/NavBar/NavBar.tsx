@@ -29,8 +29,7 @@ const Navbar: React.FC = () => {
   const debouncedSearch = useDebounce(searchQuery, 500);
 
   useEffect(() => {
-    // This would benefit from going in async thunk in features/cardsSlice, but
-    // we will need to figure out how to integrate logic with our current infinite scroll - Jeff
+    // TODO: This would benefit from going in async thunk in features/cardsSlice
     const fetchData = async () => {
       setLoading(true);
       setCards([]);
@@ -89,7 +88,6 @@ const Navbar: React.FC = () => {
             >
               Log In
             </button>
-            {/* <button onClick={handleSignUpClick}>Sign Up</button>{' '} */}
           </div>
         )}
         <Link to="/cart" className="text-xl text-gray-400 hover:text-white">
